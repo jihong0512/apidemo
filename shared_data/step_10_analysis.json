@@ -1,0 +1,772 @@
+{
+  "analyses": [
+    {
+      "test_case": "test_phone_user_login_positive",
+      "interface": "用户手机号登录",
+      "case_type": "positive",
+      "status": "failed",
+      "expected_status": 201,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/3个断言未通过): status_code: 期望=201, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_phone_user_login_boundary",
+      "interface": "用户手机号登录",
+      "case_type": "boundary",
+      "status": "failed",
+      "expected_status": 201,
+      "actual_status": 401,
+      "suggested_fix": "确保登录用例在所有业务用例之前执行",
+      "category": "data",
+      "category_cn": "数据问题",
+      "subcategory": "authentication_error",
+      "subcategory_cn": "认证失败",
+      "failure_reason": "认证失败 (401 Unauthorized): Token无效或过期",
+      "root_cause": "Token缺失、格式错误或已过期",
+      "fix_suggestions": [
+        "确保登录用例在所有业务用例之前执行",
+        "检查Token是否正确注入到Authorization请求头",
+        "验证Token的过期时间设置",
+        "检查Token生成逻辑 (算法/密钥/载荷)"
+      ],
+      "prevention_measures": [
+        "实现Token自动刷新机制",
+        "添加Token有效性预检",
+        "用例编排中明确token传递链路"
+      ],
+      "confidence": 0.88,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_phone_user_login_negative",
+      "interface": "用户手机号登录",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 401,
+      "suggested_fix": "确保登录用例在所有业务用例之前执行",
+      "category": "data",
+      "category_cn": "数据问题",
+      "subcategory": "authentication_error",
+      "subcategory_cn": "认证失败",
+      "failure_reason": "认证失败 (401 Unauthorized): Token无效或过期",
+      "root_cause": "Token缺失、格式错误或已过期",
+      "fix_suggestions": [
+        "确保登录用例在所有业务用例之前执行",
+        "检查Token是否正确注入到Authorization请求头",
+        "验证Token的过期时间设置",
+        "检查Token生成逻辑 (算法/密钥/载荷)"
+      ],
+      "prevention_measures": [
+        "实现Token自动刷新机制",
+        "添加Token有效性预检",
+        "用例编排中明确token传递链路"
+      ],
+      "confidence": 0.88,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_phone_user_login_invalid",
+      "interface": "用户手机号登录",
+      "case_type": "invalid",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 401,
+      "suggested_fix": "确保登录用例在所有业务用例之前执行",
+      "category": "data",
+      "category_cn": "数据问题",
+      "subcategory": "authentication_error",
+      "subcategory_cn": "认证失败",
+      "failure_reason": "认证失败 (401 Unauthorized): Token无效或过期",
+      "root_cause": "Token缺失、格式错误或已过期",
+      "fix_suggestions": [
+        "确保登录用例在所有业务用例之前执行",
+        "检查Token是否正确注入到Authorization请求头",
+        "验证Token的过期时间设置",
+        "检查Token生成逻辑 (算法/密钥/载荷)"
+      ],
+      "prevention_measures": [
+        "实现Token自动刷新机制",
+        "添加Token有效性预检",
+        "用例编排中明确token传递链路"
+      ],
+      "confidence": 0.88,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_phone_user_login_positive",
+      "interface": "用户手机号登录",
+      "case_type": "positive",
+      "status": "failed",
+      "expected_status": 201,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/3个断言未通过): status_code: 期望=201, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_query_list_negative",
+      "interface": "查询设备列表",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/1个断言未通过): status_code: 期望=400, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_query_detail_negative",
+      "interface": "查询设备详情",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/1个断言未通过): status_code: 期望=400, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_update_info_negative",
+      "interface": "更新设备信息",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/1个断言未通过): status_code: 期望=400, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_update_info_invalid",
+      "interface": "更新设备信息",
+      "case_type": "invalid",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/1个断言未通过): status_code: 期望=400, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_delete_boundary",
+      "interface": "删除设备",
+      "case_type": "boundary",
+      "status": "failed",
+      "expected_status": 204,
+      "actual_status": 404,
+      "suggested_fix": "检查URL路径是否与接口文档一致",
+      "category": "data",
+      "category_cn": "数据问题",
+      "subcategory": "interface_error",
+      "subcategory_cn": "接口不存在",
+      "failure_reason": "资源不存在 (404 Not Found): 接口URL或资源ID无效",
+      "root_cause": "URL路径错误、资源已被删除或接口版本已更新",
+      "fix_suggestions": [
+        "检查URL路径是否与接口文档一致",
+        "验证资源ID是否有效 (可能已被前置用例删除)",
+        "检查接口版本号和路由注册"
+      ],
+      "prevention_measures": [
+        "用例执行前验证依赖资源存在",
+        "定期同步接口文档",
+        "使用接口版本管理"
+      ],
+      "confidence": 0.85,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_delete_negative",
+      "interface": "删除设备",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 204,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/1个断言未通过): status_code: 期望=400, 实际=204",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    }
+  ],
+  "summary": {
+    "total": 22,
+    "failures": 11,
+    "pass_rate": 50.0,
+    "top_category": "code_bug",
+    "top_category_cn": "代码Bug",
+    "category_distribution": {
+      "代码Bug": 7,
+      "数据问题": 4
+    },
+    "status_code_distribution": {
+      "200": 6,
+      "401": 3,
+      "404": 1,
+      "204": 1
+    }
+  },
+  "summary_text": "代码Bug 7 条，数据问题 4 条 | 通过率: 50.0%",
+  "ai_enhanced": false,
+  "analysis": [
+    {
+      "test_case": "test_phone_user_login_positive",
+      "interface": "用户手机号登录",
+      "case_type": "positive",
+      "status": "failed",
+      "expected_status": 201,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/3个断言未通过): status_code: 期望=201, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_phone_user_login_boundary",
+      "interface": "用户手机号登录",
+      "case_type": "boundary",
+      "status": "failed",
+      "expected_status": 201,
+      "actual_status": 401,
+      "suggested_fix": "确保登录用例在所有业务用例之前执行",
+      "category": "data",
+      "category_cn": "数据问题",
+      "subcategory": "authentication_error",
+      "subcategory_cn": "认证失败",
+      "failure_reason": "认证失败 (401 Unauthorized): Token无效或过期",
+      "root_cause": "Token缺失、格式错误或已过期",
+      "fix_suggestions": [
+        "确保登录用例在所有业务用例之前执行",
+        "检查Token是否正确注入到Authorization请求头",
+        "验证Token的过期时间设置",
+        "检查Token生成逻辑 (算法/密钥/载荷)"
+      ],
+      "prevention_measures": [
+        "实现Token自动刷新机制",
+        "添加Token有效性预检",
+        "用例编排中明确token传递链路"
+      ],
+      "confidence": 0.88,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_phone_user_login_negative",
+      "interface": "用户手机号登录",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 401,
+      "suggested_fix": "确保登录用例在所有业务用例之前执行",
+      "category": "data",
+      "category_cn": "数据问题",
+      "subcategory": "authentication_error",
+      "subcategory_cn": "认证失败",
+      "failure_reason": "认证失败 (401 Unauthorized): Token无效或过期",
+      "root_cause": "Token缺失、格式错误或已过期",
+      "fix_suggestions": [
+        "确保登录用例在所有业务用例之前执行",
+        "检查Token是否正确注入到Authorization请求头",
+        "验证Token的过期时间设置",
+        "检查Token生成逻辑 (算法/密钥/载荷)"
+      ],
+      "prevention_measures": [
+        "实现Token自动刷新机制",
+        "添加Token有效性预检",
+        "用例编排中明确token传递链路"
+      ],
+      "confidence": 0.88,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_phone_user_login_invalid",
+      "interface": "用户手机号登录",
+      "case_type": "invalid",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 401,
+      "suggested_fix": "确保登录用例在所有业务用例之前执行",
+      "category": "data",
+      "category_cn": "数据问题",
+      "subcategory": "authentication_error",
+      "subcategory_cn": "认证失败",
+      "failure_reason": "认证失败 (401 Unauthorized): Token无效或过期",
+      "root_cause": "Token缺失、格式错误或已过期",
+      "fix_suggestions": [
+        "确保登录用例在所有业务用例之前执行",
+        "检查Token是否正确注入到Authorization请求头",
+        "验证Token的过期时间设置",
+        "检查Token生成逻辑 (算法/密钥/载荷)"
+      ],
+      "prevention_measures": [
+        "实现Token自动刷新机制",
+        "添加Token有效性预检",
+        "用例编排中明确token传递链路"
+      ],
+      "confidence": 0.88,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_phone_user_login_positive",
+      "interface": "用户手机号登录",
+      "case_type": "positive",
+      "status": "failed",
+      "expected_status": 201,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/3个断言未通过): status_code: 期望=201, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_query_list_negative",
+      "interface": "查询设备列表",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/1个断言未通过): status_code: 期望=400, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_query_detail_negative",
+      "interface": "查询设备详情",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/1个断言未通过): status_code: 期望=400, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_update_info_negative",
+      "interface": "更新设备信息",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/1个断言未通过): status_code: 期望=400, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_update_info_invalid",
+      "interface": "更新设备信息",
+      "case_type": "invalid",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/1个断言未通过): status_code: 期望=400, 实际=200",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_delete_boundary",
+      "interface": "删除设备",
+      "case_type": "boundary",
+      "status": "failed",
+      "expected_status": 204,
+      "actual_status": 404,
+      "suggested_fix": "检查URL路径是否与接口文档一致",
+      "category": "data",
+      "category_cn": "数据问题",
+      "subcategory": "interface_error",
+      "subcategory_cn": "接口不存在",
+      "failure_reason": "资源不存在 (404 Not Found): 接口URL或资源ID无效",
+      "root_cause": "URL路径错误、资源已被删除或接口版本已更新",
+      "fix_suggestions": [
+        "检查URL路径是否与接口文档一致",
+        "验证资源ID是否有效 (可能已被前置用例删除)",
+        "检查接口版本号和路由注册"
+      ],
+      "prevention_measures": [
+        "用例执行前验证依赖资源存在",
+        "定期同步接口文档",
+        "使用接口版本管理"
+      ],
+      "confidence": 0.85,
+      "analysis_mode": "rule_based"
+    },
+    {
+      "test_case": "test_device_delete_negative",
+      "interface": "删除设备",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 204,
+      "suggested_fix": "对比接口文档, 检查响应字段是否有变更",
+      "category": "code_bug",
+      "category_cn": "代码Bug",
+      "subcategory": "assertion_error",
+      "subcategory_cn": "断言失败",
+      "failure_reason": "断言失败 (1/1个断言未通过): status_code: 期望=400, 实际=204",
+      "root_cause": "响应数据格式/内容与期望不一致, 可能是接口Schema变更",
+      "fix_suggestions": [
+        "对比接口文档, 检查响应字段是否有变更",
+        "用Postman手动调接口, 对比实际响应结构",
+        "更新断言中的expected值以匹配新的响应格式",
+        "检查业务逻辑是否发生了变化 (如字段改名/类型变更)"
+      ],
+      "prevention_measures": [
+        "定期检查接口Schema变更",
+        "使用JSON Schema验证替代精确值断言",
+        "断言失败时自动保存actual值供对比"
+      ],
+      "confidence": 0.9,
+      "analysis_mode": "rule_based"
+    }
+  ],
+  "total_failures": 11,
+  "by_category": {
+    "代码Bug": [
+      "test_phone_user_login_positive",
+      "test_phone_user_login_positive",
+      "test_device_query_list_negative",
+      "test_device_query_detail_negative",
+      "test_device_update_info_negative",
+      "test_device_update_info_invalid",
+      "test_device_delete_negative"
+    ],
+    "数据问题": [
+      "test_phone_user_login_boundary",
+      "test_phone_user_login_negative",
+      "test_phone_user_login_invalid",
+      "test_device_delete_boundary"
+    ]
+  },
+  "suggestions": [
+    {
+      "priority": "P0",
+      "category": "数据问题",
+      "action": "检查 Token 传递链路和测试数据有效性",
+      "detail": "数据类失败占比高通常说明token管理或资源依赖有问题。建议: ① 确保login用例在所有业务用例之前执行; ② 检查Authorization头的Bearer token是否正确注入; ③ 验证前置用例(创建资源)是否成功, 资源ID是否正确传递",
+      "affected_cases": [
+        "test_phone_user_login_boundary",
+        "test_phone_user_login_negative",
+        "test_phone_user_login_invalid",
+        "test_device_delete_boundary"
+      ]
+    },
+    {
+      "priority": "P1",
+      "category": "代码Bug",
+      "action": "核对接口文档, 更新断言逻辑",
+      "detail": "代码级失败可能是接口Schema变更或断言条件过严。建议: ① 对比接口文档的最新版本, 检查响应字段是否有变更; ② 用Postman手动调接口确认实际响应结构; ③ 优先使用JSON Schema验证代替精确值断言, 提高鲁棒性",
+      "affected_cases": [
+        "test_phone_user_login_positive",
+        "test_phone_user_login_positive",
+        "test_device_query_list_negative",
+        "test_device_query_detail_negative",
+        "test_device_update_info_negative"
+      ]
+    }
+  ],
+  "schema_changes": {
+    "has_changes": true,
+    "changes": [
+      {
+        "field": "methods_summary",
+        "old_value": "exists",
+        "new_value": null,
+        "change_type": "removed"
+      },
+      {
+        "field": "interfaces",
+        "old_value": "exists",
+        "new_value": null,
+        "change_type": "removed"
+      },
+      {
+        "field": "_meta",
+        "old_value": "exists",
+        "new_value": null,
+        "change_type": "removed"
+      },
+      {
+        "field": "services",
+        "old_value": "exists",
+        "new_value": null,
+        "change_type": "removed"
+      },
+      {
+        "field": "total_count",
+        "old_value": "exists",
+        "new_value": null,
+        "change_type": "removed"
+      }
+    ],
+    "total_changes": 5,
+    "summary": "检测到 5 处 Schema 变更 (keys 模式)",
+    "suggested_actions": [
+      "请手动验证变更的字段是否影响现有断言",
+      "更新数据工厂中的字段映射"
+    ],
+    "detection_mode": "keys_diff"
+  },
+  "ai_suggestions": [
+    {
+      "dimension": "regenerate",
+      "priority": "P0",
+      "action": "重新生成用例——接口 Schema 可能已变更",
+      "reason": "2 条断言失败，可能因接口响应结构变化",
+      "effort_estimate": "4 分钟 (自动重新生成)",
+      "confidence": 0.82,
+      "affected_cases": [
+        "test_phone_user_login_positive",
+        "test_phone_user_login_positive"
+      ],
+      "implementation": "运行 demo_06 重新生成用例，使用最新接口文档"
+    },
+    {
+      "dimension": "update",
+      "priority": "P1",
+      "action": "更新断言——对比实际响应调整 expected 值",
+      "reason": "断言期望值与实际响应不匹配",
+      "effort_estimate": "2 分钟",
+      "confidence": 0.78,
+      "affected_cases": [
+        "test_phone_user_login_positive",
+        "test_phone_user_login_positive"
+      ],
+      "implementation": "用 Postman 手动调接口获取实际响应 → 更新断言"
+    },
+    {
+      "dimension": "datafix",
+      "priority": "P0",
+      "action": "修复测试数据——Token/资源ID 传递链路检查",
+      "reason": "3 条数据相关问题（Token 认证/资源不存在）",
+      "effort_estimate": "9 分钟",
+      "confidence": 0.85,
+      "affected_cases": [
+        "test_phone_user_login_boundary",
+        "test_phone_user_login_negative",
+        "test_phone_user_login_invalid"
+      ],
+      "implementation": "① 确认 login 用例在所有业务用例之前执行; ② 检查 Authorization header 的 Bearer token 注入; ③ 验证 CREATE 产出的资源 ID 是否正确传递到 READ/UPDATE/DELETE"
+    }
+  ],
+  "_meta": {
+    "generated_at": "2026-05-24T14:49:53.523832",
+    "source_file": "step_10_analysis.json"
+  }
+}

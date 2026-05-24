@@ -1,0 +1,449 @@
+{
+  "test_cases": [
+    {
+      "function_name": "test_phone_user_login_positive",
+      "interface_name": "用户手机号登录",
+      "method": "POST",
+      "url": "/api/v1/auth/login",
+      "case_type": "positive",
+      "description": "正向测试: 用户手机号登录",
+      "expected_status": 201,
+      "pytest_code": "\"\"\"\n正向测试: 用户手机号登录\n接口: POST /api/v1/auth/login\n用例: positive | 期望: 201\n\"\"\"\n\ndef test_phone_user_login_positive(base_url, auth_headers):\n    \"\"\"正向测试: 用户手机号登录\"\"\"\n\n    url = f\"{base_url}/api/v1/auth/login\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\"\n    }}\n    body = {\n            \"phone\": \"13800138000\",\n            \"code\": \"123456\"\n    }\n\n    resp = requests.post(url, headers=headers, json=body)\n\n    assert resp.status_code == 201, f\"201 expected, got {resp.status_code}\"\n    data = resp.json()\n    assert data is not None, \"响应体为空\"\n    # 字段类型断言\n    assert isinstance(data.get(\"token\"), str), f\"token 类型应为 string\"\n    assert isinstance(data.get(\"user_id\"), int), f\"user_id 类型应为 integer\"\n    assert isinstance(data.get(\"expires_in\"), int), f\"expires_in 类型应为 integer\"\n",
+      "http_runner_yaml": "config:\n  name: \"用户手机号登录 - positive\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"正向测试: 用户手机号登录\"\n    request:\n      method: POST\n      url: \"/api/v1/auth/login\"\n      headers:\n        Content-Type: \"application/json\"\n      json:\n        phone: \"13800138000\"\n        code: \"123456\"\n    validate:\n      - eq: [\"status_code\", 201]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "phone": "13800138000",
+        "code": "123456"
+      }
+    },
+    {
+      "function_name": "test_phone_user_login_boundary",
+      "interface_name": "用户手机号登录",
+      "method": "POST",
+      "url": "/api/v1/auth/login",
+      "case_type": "boundary",
+      "description": "边界值测试: 用户手机号登录",
+      "expected_status": 201,
+      "pytest_code": "\"\"\"\n边界值测试: 用户手机号登录\n接口: POST /api/v1/auth/login\n用例: boundary | 期望: 201\n\"\"\"\n\ndef test_phone_user_login_boundary(base_url, auth_headers):\n    \"\"\"边界值测试: 用户手机号登录\"\"\"\n\n    url = f\"{base_url}/api/v1/auth/login\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\"\n    }}\n    body = {\n            \"phone\": \"\",\n            \"code\": \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n    }\n\n    resp = requests.post(url, headers=headers, json=body)\n\n    assert resp.status_code == 201, f\"201 expected, got {resp.status_code}\"\n",
+      "http_runner_yaml": "config:\n  name: \"用户手机号登录 - boundary\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"边界值测试: 用户手机号登录\"\n    request:\n      method: POST\n      url: \"/api/v1/auth/login\"\n      headers:\n        Content-Type: \"application/json\"\n      json:\n        phone: \"\"\n        code: \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n    validate:\n      - eq: [\"status_code\", 201]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "phone": "",
+        "code": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    },
+    {
+      "function_name": "test_phone_user_login_negative",
+      "interface_name": "用户手机号登录",
+      "method": "POST",
+      "url": "/api/v1/auth/login",
+      "case_type": "negative",
+      "description": "负向测试(缺必填): 用户手机号登录",
+      "expected_status": 400,
+      "pytest_code": "\"\"\"\n负向测试(缺必填): 用户手机号登录\n接口: POST /api/v1/auth/login\n用例: negative | 期望: 400\n\"\"\"\n\ndef test_phone_user_login_negative(base_url, auth_headers):\n    \"\"\"负向测试(缺必填): 用户手机号登录\"\"\"\n\n    url = f\"{base_url}/api/v1/auth/login\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\"\n    }}\n    body = {\n            \"code\": \"123456\"\n    }\n\n    resp = requests.post(url, headers=headers, json=body)\n\n    assert resp.status_code == 400, f\"400 expected, got {resp.status_code}\"\n    try:\n        err = resp.json()\n        assert \"error\" in err or \"message\" in err, \"应返回错误信息\"\n    except Exception:\n        pass\n",
+      "http_runner_yaml": "config:\n  name: \"用户手机号登录 - negative\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"负向测试(缺必填): 用户手机号登录\"\n    request:\n      method: POST\n      url: \"/api/v1/auth/login\"\n      headers:\n        Content-Type: \"application/json\"\n      json:\n        code: \"123456\"\n    validate:\n      - eq: [\"status_code\", 400]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "123456"
+      }
+    },
+    {
+      "function_name": "test_phone_user_login_invalid",
+      "interface_name": "用户手机号登录",
+      "method": "POST",
+      "url": "/api/v1/auth/login",
+      "case_type": "invalid",
+      "description": "无效数据测试: 用户手机号登录",
+      "expected_status": 400,
+      "pytest_code": "\"\"\"\n无效数据测试: 用户手机号登录\n接口: POST /api/v1/auth/login\n用例: invalid | 期望: 400\n\"\"\"\n\ndef test_phone_user_login_invalid(base_url, auth_headers):\n    \"\"\"无效数据测试: 用户手机号登录\"\"\"\n\n    url = f\"{base_url}/api/v1/auth/login\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\"\n    }}\n    body = {\n            \"phone\": null,\n            \"code\": null\n    }\n\n    resp = requests.post(url, headers=headers, json=body)\n\n    assert resp.status_code == 400, f\"400 expected, got {resp.status_code}\"\n",
+      "http_runner_yaml": "config:\n  name: \"用户手机号登录 - invalid\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"无效数据测试: 用户手机号登录\"\n    request:\n      method: POST\n      url: \"/api/v1/auth/login\"\n      headers:\n        Content-Type: \"application/json\"\n      json:\n        phone: null\n        code: null\n    validate:\n      - eq: [\"status_code\", 400]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "phone": null,
+        "code": null
+      }
+    },
+    {
+      "function_name": "test_create_device_positive",
+      "interface_name": "创建设备",
+      "method": "POST",
+      "url": "/api/v1/device/create",
+      "case_type": "positive",
+      "description": "正向测试: 创建设备",
+      "expected_status": 201,
+      "pytest_code": "\"\"\"\n正向测试: 创建设备\n接口: POST /api/v1/device/create\n用例: positive | 期望: 201\n\"\"\"\n\ndef test_create_device_positive(base_url, auth_headers):\n    \"\"\"正向测试: 创建设备\"\"\"\n\n    url = f\"{base_url}/api/v1/device/create\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\",\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    body = {\n            \"device_name\": \"智能跑步机 Pro\",\n            \"device_type\": \"跑步机\",\n            \"sn\": \"SN20240001\",\n            \"description\": \"自动化测试生成的描述文本\",\n            \"price\": 3999.0\n    }\n\n    resp = requests.post(url, headers=headers, json=body)\n\n    assert resp.status_code == 201, f\"201 expected, got {resp.status_code}\"\n    data = resp.json()\n    assert data is not None, \"响应体为空\"\n    # 字段类型断言\n    assert isinstance(data.get(\"device_id\"), int), f\"device_id 类型应为 integer\"\n    assert isinstance(data.get(\"device_name\"), str), f\"device_name 类型应为 string\"\n    assert isinstance(data.get(\"status\"), str), f\"status 类型应为 string\"\n    assert isinstance(data.get(\"created_at\"), str), f\"created_at 类型应为 string\"\n",
+      "http_runner_yaml": "config:\n  name: \"创建设备 - positive\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"正向测试: 创建设备\"\n    request:\n      method: POST\n      url: \"/api/v1/device/create\"\n      headers:\n        Content-Type: \"application/json\"\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n      json:\n        device_name: \"智能跑步机 Pro\"\n        device_type: \"跑步机\"\n        sn: \"SN20240001\"\n        description: \"自动化测试生成的描述文本\"\n        price: 3999.0\n    validate:\n      - eq: [\"status_code\", 201]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {
+        "device_name": "智能跑步机 Pro",
+        "device_type": "跑步机",
+        "sn": "SN20240001",
+        "description": "自动化测试生成的描述文本",
+        "price": 3999.0
+      }
+    },
+    {
+      "function_name": "test_create_device_boundary",
+      "interface_name": "创建设备",
+      "method": "POST",
+      "url": "/api/v1/device/create",
+      "case_type": "boundary",
+      "description": "边界值测试: 创建设备",
+      "expected_status": 201,
+      "pytest_code": "\"\"\"\n边界值测试: 创建设备\n接口: POST /api/v1/device/create\n用例: boundary | 期望: 201\n\"\"\"\n\ndef test_create_device_boundary(base_url, auth_headers):\n    \"\"\"边界值测试: 创建设备\"\"\"\n\n    url = f\"{base_url}/api/v1/device/create\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\",\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    body = {\n            \"device_name\": \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\n            \"device_type\": \"<script>alert(1)</script>\",\n            \"sn\": \"' OR '1'='1\",\n            \"description\": \"\",\n            \"price\": 0.0\n    }\n\n    resp = requests.post(url, headers=headers, json=body)\n\n    assert resp.status_code == 201, f\"201 expected, got {resp.status_code}\"\n",
+      "http_runner_yaml": "config:\n  name: \"创建设备 - boundary\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"边界值测试: 创建设备\"\n    request:\n      method: POST\n      url: \"/api/v1/device/create\"\n      headers:\n        Content-Type: \"application/json\"\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n      json:\n        device_name: \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n        device_type: \"<script>alert(1)</script>\"\n        sn: \"' OR '1'='1\"\n        description: \"\"\n        price: 0.0\n    validate:\n      - eq: [\"status_code\", 201]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {
+        "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "device_type": "<script>alert(1)</script>",
+        "sn": "' OR '1'='1",
+        "description": "",
+        "price": 0.0
+      }
+    },
+    {
+      "function_name": "test_create_device_negative",
+      "interface_name": "创建设备",
+      "method": "POST",
+      "url": "/api/v1/device/create",
+      "case_type": "negative",
+      "description": "负向测试(缺必填): 创建设备",
+      "expected_status": 400,
+      "pytest_code": "\"\"\"\n负向测试(缺必填): 创建设备\n接口: POST /api/v1/device/create\n用例: negative | 期望: 400\n\"\"\"\n\ndef test_create_device_negative(base_url, auth_headers):\n    \"\"\"负向测试(缺必填): 创建设备\"\"\"\n\n    url = f\"{base_url}/api/v1/device/create\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\"\n    }}\n    body = {\n            \"device_type\": \"跑步机\",\n            \"sn\": \"SN20240001\",\n            \"description\": \"自动化测试生成的描述文本\",\n            \"price\": 3999.0\n    }\n\n    resp = requests.post(url, headers=headers, json=body)\n\n    assert resp.status_code == 400, f\"400 expected, got {resp.status_code}\"\n    try:\n        err = resp.json()\n        assert \"error\" in err or \"message\" in err, \"应返回错误信息\"\n    except Exception:\n        pass\n",
+      "http_runner_yaml": "config:\n  name: \"创建设备 - negative\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"负向测试(缺必填): 创建设备\"\n    request:\n      method: POST\n      url: \"/api/v1/device/create\"\n      headers:\n        Content-Type: \"application/json\"\n      json:\n        device_type: \"跑步机\"\n        sn: \"SN20240001\"\n        description: \"自动化测试生成的描述文本\"\n        price: 3999.0\n    validate:\n      - eq: [\"status_code\", 400]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "device_type": "跑步机",
+        "sn": "SN20240001",
+        "description": "自动化测试生成的描述文本",
+        "price": 3999.0
+      }
+    },
+    {
+      "function_name": "test_create_device_invalid",
+      "interface_name": "创建设备",
+      "method": "POST",
+      "url": "/api/v1/device/create",
+      "case_type": "invalid",
+      "description": "无效数据测试: 创建设备",
+      "expected_status": 400,
+      "pytest_code": "\"\"\"\n无效数据测试: 创建设备\n接口: POST /api/v1/device/create\n用例: invalid | 期望: 400\n\"\"\"\n\ndef test_create_device_invalid(base_url, auth_headers):\n    \"\"\"无效数据测试: 创建设备\"\"\"\n\n    url = f\"{base_url}/api/v1/device/create\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\",\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    body = {\n            \"device_name\": null,\n            \"device_type\": null,\n            \"sn\": null,\n            \"description\": null,\n            \"price\": null\n    }\n\n    resp = requests.post(url, headers=headers, json=body)\n\n    assert resp.status_code == 400, f\"400 expected, got {resp.status_code}\"\n",
+      "http_runner_yaml": "config:\n  name: \"创建设备 - invalid\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"无效数据测试: 创建设备\"\n    request:\n      method: POST\n      url: \"/api/v1/device/create\"\n      headers:\n        Content-Type: \"application/json\"\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n      json:\n        device_name: null\n        device_type: null\n        sn: null\n        description: null\n        price: null\n    validate:\n      - eq: [\"status_code\", 400]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {
+        "device_name": null,
+        "device_type": null,
+        "sn": null,
+        "description": null,
+        "price": null
+      }
+    },
+    {
+      "function_name": "test_device_query_list_positive",
+      "interface_name": "查询设备列表",
+      "method": "GET",
+      "url": "/api/v1/device/list",
+      "case_type": "positive",
+      "description": "正向测试: 查询设备列表",
+      "expected_status": 200,
+      "pytest_code": "\"\"\"\n正向测试: 查询设备列表\n接口: GET /api/v1/device/list\n用例: positive | 期望: 200\n\"\"\"\n\ndef test_device_query_list_positive(base_url, auth_headers):\n    \"\"\"正向测试: 查询设备列表\"\"\"\n\n    url = f\"{base_url}/api/v1/device/list\"\n    headers = {**auth_headers, **{\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    params = {\"page\": 19, \"page_size\": 42, \"device_type\": \"跑步机\", \"status\": \"active\"}\n    body = None\n\n    resp = requests.get(url, headers=headers, params=params)\n\n    assert resp.status_code == 200, f\"200 expected, got {resp.status_code}\"\n    data = resp.json()\n    assert data is not None, \"响应体为空\"\n    # 字段类型断言\n    assert isinstance(data.get(\"total\"), int), f\"total 类型应为 integer\"\n    assert isinstance(data.get(\"page\"), int), f\"page 类型应为 integer\"\n    assert isinstance(data.get(\"items\"), object), f\"items 类型应为 array\"\n",
+      "http_runner_yaml": "config:\n  name: \"查询设备列表 - positive\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"正向测试: 查询设备列表\"\n    request:\n      method: GET\n      url: \"/api/v1/device/list\"\n      headers:\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n      params:\n        page: 19\n        page_size: 42\n        device_type: \"跑步机\"\n        status: \"active\"\n    validate:\n      - eq: [\"status_code\", 200]",
+      "params": {
+        "page": 19,
+        "page_size": 42,
+        "device_type": "跑步机",
+        "status": "active"
+      },
+      "headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {}
+    },
+    {
+      "function_name": "test_device_query_list_boundary",
+      "interface_name": "查询设备列表",
+      "method": "GET",
+      "url": "/api/v1/device/list",
+      "case_type": "boundary",
+      "description": "边界值测试: 查询设备列表",
+      "expected_status": 200,
+      "pytest_code": "\"\"\"\n边界值测试: 查询设备列表\n接口: GET /api/v1/device/list\n用例: boundary | 期望: 200\n\"\"\"\n\ndef test_device_query_list_boundary(base_url, auth_headers):\n    \"\"\"边界值测试: 查询设备列表\"\"\"\n\n    url = f\"{base_url}/api/v1/device/list\"\n    headers = {**auth_headers, **{\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    params = {\"page\": 2147483647, \"page_size\": 0, \"device_type\": \"\", \"status\": \"测试Unicode🎯\"}\n    body = None\n\n    resp = requests.get(url, headers=headers, params=params)\n\n    assert resp.status_code == 200, f\"200 expected, got {resp.status_code}\"\n",
+      "http_runner_yaml": "config:\n  name: \"查询设备列表 - boundary\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"边界值测试: 查询设备列表\"\n    request:\n      method: GET\n      url: \"/api/v1/device/list\"\n      headers:\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n      params:\n        page: 2147483647\n        page_size: 0\n        device_type: \"\"\n        status: \"测试Unicode🎯\"\n    validate:\n      - eq: [\"status_code\", 200]",
+      "params": {
+        "page": 2147483647,
+        "page_size": 0,
+        "device_type": "",
+        "status": "测试Unicode🎯"
+      },
+      "headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {}
+    },
+    {
+      "function_name": "test_device_query_list_negative",
+      "interface_name": "查询设备列表",
+      "method": "GET",
+      "url": "/api/v1/device/list",
+      "case_type": "negative",
+      "description": "负向测试(缺必填): 查询设备列表",
+      "expected_status": 400,
+      "pytest_code": "\"\"\"\n负向测试(缺必填): 查询设备列表\n接口: GET /api/v1/device/list\n用例: negative | 期望: 400\n\"\"\"\n\ndef test_device_query_list_negative(base_url, auth_headers):\n    \"\"\"负向测试(缺必填): 查询设备列表\"\"\"\n\n    url = f\"{base_url}/api/v1/device/list\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\"\n    }}\n    params = {\"page\": \"not_a_number\", \"page_size\": \"not_a_number\", \"device_type\": 12345678, \"status\": 12345678}\n    body = None\n\n    resp = requests.get(url, headers=headers, params=params)\n\n    assert resp.status_code == 400, f\"400 expected, got {resp.status_code}\"\n    try:\n        err = resp.json()\n        assert \"error\" in err or \"message\" in err, \"应返回错误信息\"\n    except Exception:\n        pass\n",
+      "http_runner_yaml": "config:\n  name: \"查询设备列表 - negative\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"负向测试(缺必填): 查询设备列表\"\n    request:\n      method: GET\n      url: \"/api/v1/device/list\"\n      headers:\n        Content-Type: \"application/json\"\n      params:\n        page: \"not_a_number\"\n        page_size: \"not_a_number\"\n        device_type: 12345678\n        status: 12345678\n    validate:\n      - eq: [\"status_code\", 400]",
+      "params": {
+        "page": "not_a_number",
+        "page_size": "not_a_number",
+        "device_type": 12345678,
+        "status": 12345678
+      },
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {}
+    },
+    {
+      "function_name": "test_device_query_detail_positive",
+      "interface_name": "查询设备详情",
+      "method": "GET",
+      "url": "/api/v1/device/1",
+      "case_type": "positive",
+      "description": "正向测试: 查询设备详情",
+      "expected_status": 200,
+      "pytest_code": "\"\"\"\n正向测试: 查询设备详情\n接口: GET /api/v1/device/{device_id}\n用例: positive | 期望: 200\n\"\"\"\n\ndef test_device_query_detail_positive(base_url, auth_headers):\n    \"\"\"正向测试: 查询设备详情\"\"\"\n\n    url = f\"{base_url}/api/v1/device/1\"\n    headers = {**auth_headers, **{\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    body = None\n\n    resp = requests.get(url, headers=headers)\n\n    assert resp.status_code == 200, f\"200 expected, got {resp.status_code}\"\n    data = resp.json()\n    assert data is not None, \"响应体为空\"\n    # 字段类型断言\n    assert isinstance(data.get(\"device_id\"), int), f\"device_id 类型应为 integer\"\n    assert isinstance(data.get(\"device_name\"), str), f\"device_name 类型应为 string\"\n    assert isinstance(data.get(\"device_type\"), str), f\"device_type 类型应为 string\"\n    assert isinstance(data.get(\"sn\"), str), f\"sn 类型应为 string\"\n    assert isinstance(data.get(\"description\"), str), f\"description 类型应为 string\"\n",
+      "http_runner_yaml": "config:\n  name: \"查询设备详情 - positive\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"正向测试: 查询设备详情\"\n    request:\n      method: GET\n      url: \"/api/v1/device/1\"\n      headers:\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    validate:\n      - eq: [\"status_code\", 200]",
+      "params": {},
+      "headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {}
+    },
+    {
+      "function_name": "test_device_query_detail_boundary",
+      "interface_name": "查询设备详情",
+      "method": "GET",
+      "url": "/api/v1/device/1",
+      "case_type": "boundary",
+      "description": "边界值测试: 查询设备详情",
+      "expected_status": 200,
+      "pytest_code": "\"\"\"\n边界值测试: 查询设备详情\n接口: GET /api/v1/device/{device_id}\n用例: boundary | 期望: 200\n\"\"\"\n\ndef test_device_query_detail_boundary(base_url, auth_headers):\n    \"\"\"边界值测试: 查询设备详情\"\"\"\n\n    url = f\"{base_url}/api/v1/device/1\"\n    headers = {**auth_headers, **{\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    body = None\n\n    resp = requests.get(url, headers=headers)\n\n    assert resp.status_code == 200, f\"200 expected, got {resp.status_code}\"\n",
+      "http_runner_yaml": "config:\n  name: \"查询设备详情 - boundary\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"边界值测试: 查询设备详情\"\n    request:\n      method: GET\n      url: \"/api/v1/device/1\"\n      headers:\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    validate:\n      - eq: [\"status_code\", 200]",
+      "params": {},
+      "headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {}
+    },
+    {
+      "function_name": "test_device_query_detail_negative",
+      "interface_name": "查询设备详情",
+      "method": "GET",
+      "url": "/api/v1/device/1",
+      "case_type": "negative",
+      "description": "负向测试(缺必填): 查询设备详情",
+      "expected_status": 400,
+      "pytest_code": "\"\"\"\n负向测试(缺必填): 查询设备详情\n接口: GET /api/v1/device/{device_id}\n用例: negative | 期望: 400\n\"\"\"\n\ndef test_device_query_detail_negative(base_url, auth_headers):\n    \"\"\"负向测试(缺必填): 查询设备详情\"\"\"\n\n    url = f\"{base_url}/api/v1/device/1\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\"\n    }}\n    body = None\n\n    resp = requests.get(url, headers=headers)\n\n    assert resp.status_code == 400, f\"400 expected, got {resp.status_code}\"\n    try:\n        err = resp.json()\n        assert \"error\" in err or \"message\" in err, \"应返回错误信息\"\n    except Exception:\n        pass\n",
+      "http_runner_yaml": "config:\n  name: \"查询设备详情 - negative\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"负向测试(缺必填): 查询设备详情\"\n    request:\n      method: GET\n      url: \"/api/v1/device/1\"\n      headers:\n        Content-Type: \"application/json\"\n    validate:\n      - eq: [\"status_code\", 400]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {}
+    },
+    {
+      "function_name": "test_device_update_info_positive",
+      "interface_name": "更新设备信息",
+      "method": "PUT",
+      "url": "/api/v1/device/1",
+      "case_type": "positive",
+      "description": "正向测试: 更新设备信息",
+      "expected_status": 200,
+      "pytest_code": "\"\"\"\n正向测试: 更新设备信息\n接口: PUT /api/v1/device/{device_id}\n用例: positive | 期望: 200\n\"\"\"\n\ndef test_device_update_info_positive(base_url, auth_headers):\n    \"\"\"正向测试: 更新设备信息\"\"\"\n\n    url = f\"{base_url}/api/v1/device/1\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\",\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    body = {\n            \"device_name\": \"黄淑英\",\n            \"description\": \"自动化测试生成的描述文本\",\n            \"status\": \"active\"\n    }\n\n    resp = requests.put(url, headers=headers, json=body)\n\n    assert resp.status_code == 200, f\"200 expected, got {resp.status_code}\"\n    data = resp.json()\n    assert data is not None, \"响应体为空\"\n    # 字段类型断言\n    assert isinstance(data.get(\"device_id\"), int), f\"device_id 类型应为 integer\"\n    assert isinstance(data.get(\"device_name\"), str), f\"device_name 类型应为 string\"\n    assert isinstance(data.get(\"status\"), str), f\"status 类型应为 string\"\n    assert isinstance(data.get(\"updated_at\"), str), f\"updated_at 类型应为 string\"\n",
+      "http_runner_yaml": "config:\n  name: \"更新设备信息 - positive\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"正向测试: 更新设备信息\"\n    request:\n      method: PUT\n      url: \"/api/v1/device/1\"\n      headers:\n        Content-Type: \"application/json\"\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n      json:\n        device_name: \"黄淑英\"\n        description: \"自动化测试生成的描述文本\"\n        status: \"active\"\n    validate:\n      - eq: [\"status_code\", 200]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {
+        "device_name": "黄淑英",
+        "description": "自动化测试生成的描述文本",
+        "status": "active"
+      }
+    },
+    {
+      "function_name": "test_device_update_info_boundary",
+      "interface_name": "更新设备信息",
+      "method": "PUT",
+      "url": "/api/v1/device/1",
+      "case_type": "boundary",
+      "description": "边界值测试: 更新设备信息",
+      "expected_status": 200,
+      "pytest_code": "\"\"\"\n边界值测试: 更新设备信息\n接口: PUT /api/v1/device/{device_id}\n用例: boundary | 期望: 200\n\"\"\"\n\ndef test_device_update_info_boundary(base_url, auth_headers):\n    \"\"\"边界值测试: 更新设备信息\"\"\"\n\n    url = f\"{base_url}/api/v1/device/1\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\",\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    body = {\n            \"device_name\": \"\",\n            \"description\": \"测试Unicode🎯\",\n            \"status\": \"\"\n    }\n\n    resp = requests.put(url, headers=headers, json=body)\n\n    assert resp.status_code == 200, f\"200 expected, got {resp.status_code}\"\n",
+      "http_runner_yaml": "config:\n  name: \"更新设备信息 - boundary\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"边界值测试: 更新设备信息\"\n    request:\n      method: PUT\n      url: \"/api/v1/device/1\"\n      headers:\n        Content-Type: \"application/json\"\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n      json:\n        device_name: \"\"\n        description: \"测试Unicode🎯\"\n        status: \"\"\n    validate:\n      - eq: [\"status_code\", 200]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {
+        "device_name": "",
+        "description": "测试Unicode🎯",
+        "status": ""
+      }
+    },
+    {
+      "function_name": "test_device_update_info_negative",
+      "interface_name": "更新设备信息",
+      "method": "PUT",
+      "url": "/api/v1/device/1",
+      "case_type": "negative",
+      "description": "负向测试(缺必填): 更新设备信息",
+      "expected_status": 400,
+      "pytest_code": "\"\"\"\n负向测试(缺必填): 更新设备信息\n接口: PUT /api/v1/device/{device_id}\n用例: negative | 期望: 400\n\"\"\"\n\ndef test_device_update_info_negative(base_url, auth_headers):\n    \"\"\"负向测试(缺必填): 更新设备信息\"\"\"\n\n    url = f\"{base_url}/api/v1/device/1\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\"\n    }}\n    body = {\n            \"device_name\": \"张洁\",\n            \"description\": \"自动化测试生成的描述文本\",\n            \"status\": \"active\"\n    }\n\n    resp = requests.put(url, headers=headers, json=body)\n\n    assert resp.status_code == 400, f\"400 expected, got {resp.status_code}\"\n    try:\n        err = resp.json()\n        assert \"error\" in err or \"message\" in err, \"应返回错误信息\"\n    except Exception:\n        pass\n",
+      "http_runner_yaml": "config:\n  name: \"更新设备信息 - negative\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"负向测试(缺必填): 更新设备信息\"\n    request:\n      method: PUT\n      url: \"/api/v1/device/1\"\n      headers:\n        Content-Type: \"application/json\"\n      json:\n        device_name: \"张洁\"\n        description: \"自动化测试生成的描述文本\"\n        status: \"active\"\n    validate:\n      - eq: [\"status_code\", 400]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "device_name": "张洁",
+        "description": "自动化测试生成的描述文本",
+        "status": "active"
+      }
+    },
+    {
+      "function_name": "test_device_update_info_invalid",
+      "interface_name": "更新设备信息",
+      "method": "PUT",
+      "url": "/api/v1/device/1",
+      "case_type": "invalid",
+      "description": "无效数据测试: 更新设备信息",
+      "expected_status": 400,
+      "pytest_code": "\"\"\"\n无效数据测试: 更新设备信息\n接口: PUT /api/v1/device/{device_id}\n用例: invalid | 期望: 400\n\"\"\"\n\ndef test_device_update_info_invalid(base_url, auth_headers):\n    \"\"\"无效数据测试: 更新设备信息\"\"\"\n\n    url = f\"{base_url}/api/v1/device/1\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\",\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    body = {\n            \"device_name\": null,\n            \"description\": null,\n            \"status\": null\n    }\n\n    resp = requests.put(url, headers=headers, json=body)\n\n    assert resp.status_code == 400, f\"400 expected, got {resp.status_code}\"\n",
+      "http_runner_yaml": "config:\n  name: \"更新设备信息 - invalid\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"无效数据测试: 更新设备信息\"\n    request:\n      method: PUT\n      url: \"/api/v1/device/1\"\n      headers:\n        Content-Type: \"application/json\"\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n      json:\n        device_name: null\n        description: null\n        status: null\n    validate:\n      - eq: [\"status_code\", 400]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {
+        "device_name": null,
+        "description": null,
+        "status": null
+      }
+    },
+    {
+      "function_name": "test_device_delete_positive",
+      "interface_name": "删除设备",
+      "method": "DELETE",
+      "url": "/api/v1/device/1",
+      "case_type": "positive",
+      "description": "正向测试: 删除设备",
+      "expected_status": 204,
+      "pytest_code": "\"\"\"\n正向测试: 删除设备\n接口: DELETE /api/v1/device/{device_id}\n用例: positive | 期望: 204\n\"\"\"\n\ndef test_device_delete_positive(base_url, auth_headers):\n    \"\"\"正向测试: 删除设备\"\"\"\n\n    url = f\"{base_url}/api/v1/device/1\"\n    headers = {**auth_headers, **{\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    body = None\n\n    resp = requests.delete(url, headers=headers)\n\n    assert resp.status_code in (204, 200, 204), f\"204 expected, got {resp.status_code}\"\n",
+      "http_runner_yaml": "config:\n  name: \"删除设备 - positive\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"正向测试: 删除设备\"\n    request:\n      method: DELETE\n      url: \"/api/v1/device/1\"\n      headers:\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    validate:\n      - eq: [\"status_code\", 204]",
+      "params": {},
+      "headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {}
+    },
+    {
+      "function_name": "test_device_delete_boundary",
+      "interface_name": "删除设备",
+      "method": "DELETE",
+      "url": "/api/v1/device/1",
+      "case_type": "boundary",
+      "description": "边界值测试: 删除设备",
+      "expected_status": 204,
+      "pytest_code": "\"\"\"\n边界值测试: 删除设备\n接口: DELETE /api/v1/device/{device_id}\n用例: boundary | 期望: 204\n\"\"\"\n\ndef test_device_delete_boundary(base_url, auth_headers):\n    \"\"\"边界值测试: 删除设备\"\"\"\n\n    url = f\"{base_url}/api/v1/device/1\"\n    headers = {**auth_headers, **{\n            \"Authorization\": \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    }}\n    body = None\n\n    resp = requests.delete(url, headers=headers)\n\n    assert resp.status_code in (204, 200, 204), f\"204 expected, got {resp.status_code}\"\n",
+      "http_runner_yaml": "config:\n  name: \"删除设备 - boundary\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"边界值测试: 删除设备\"\n    request:\n      method: DELETE\n      url: \"/api/v1/device/1\"\n      headers:\n        Authorization: \"Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=\"\n    validate:\n      - eq: [\"status_code\", 204]",
+      "params": {},
+      "headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+      },
+      "body": {}
+    },
+    {
+      "function_name": "test_device_delete_negative",
+      "interface_name": "删除设备",
+      "method": "DELETE",
+      "url": "/api/v1/device/1",
+      "case_type": "negative",
+      "description": "负向测试(缺必填): 删除设备",
+      "expected_status": 400,
+      "pytest_code": "\"\"\"\n负向测试(缺必填): 删除设备\n接口: DELETE /api/v1/device/{device_id}\n用例: negative | 期望: 400\n\"\"\"\n\ndef test_device_delete_negative(base_url, auth_headers):\n    \"\"\"负向测试(缺必填): 删除设备\"\"\"\n\n    url = f\"{base_url}/api/v1/device/1\"\n    headers = {**auth_headers, **{\n            \"Content-Type\": \"application/json\"\n    }}\n    body = None\n\n    resp = requests.delete(url, headers=headers)\n\n    assert resp.status_code in (400, 200, 204), f\"400 expected, got {resp.status_code}\"\n    try:\n        err = resp.json()\n        assert \"error\" in err or \"message\" in err, \"应返回错误信息\"\n    except Exception:\n        pass\n",
+      "http_runner_yaml": "config:\n  name: \"删除设备 - negative\"\n  variables:\n    base_url: \"http://localhost:8004\"\nteststeps:\n  - name: \"负向测试(缺必填): 删除设备\"\n    request:\n      method: DELETE\n      url: \"/api/v1/device/1\"\n      headers:\n        Content-Type: \"application/json\"\n    validate:\n      - eq: [\"status_code\", 400]",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {}
+    },
+    {
+      "function_name": "test_phone_user_login_positive",
+      "interface_name": "用户手机号登录",
+      "method": "POST",
+      "url": "/api/v1/auth/login",
+      "case_type": "positive",
+      "expected_status": 201,
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "phone": "13800138000",
+        "code": "123456"
+      },
+      "pytest_code": "import pytest\nimport requests\nimport json\n\n\"\"\"\n正向测试: 用户手机号登录\n接口: POST /api/v1/auth/login\n用例: positive | 期望: 201\n\"\"\"\n\ndef test_phone_user_login_positive(base_url, auth_headers):\n    \"\"\"正向测试: 用户手机号登录\"\"\"\n    url = f\"{base_url}/api/v1/auth/login\"\n    headers = {**auth_headers, **{\"Content-Type\": \"application/json\"}}\n    body = {\"phone\": \"13800138000\", \"code\": \"123456\"}\n\n    resp = requests.post(url, headers=headers, json=body)\n\n    assert resp.status_code == 201, f\"期望{self.expected_status}，实际{resp.status_code}\"\n    data = resp.json()\n    assert data is not None, \"响应体为空\"\n    # 字段类型断言\n    assert isinstance(data.get(\"token\"), str), f\"token 类型应为 string\"\n    assert isinstance(data.get(\"user_id\"), int), f\"user_id 类型应为 integer\"\n    assert isinstance(data.get(\"expires_in\"), int), f\"expires_in 类型应为 integer\"\n"
+    }
+  ],
+  "total_cases": 22,
+  "generation_mode": "llm",
+  "conftest": "import pytest, requests, logging, os\nlogging.basicConfig(level=logging.INFO)\n\n@pytest.fixture(scope=\"session\")\ndef base_url():\n    \"\"\"测试环境基础 URL (可通过 TEST_BASE_URL 覆盖)\"\"\"\n    return os.environ.get(\"TEST_BASE_URL\", \"http://localhost:8004\")\n\n@pytest.fixture(scope=\"session\")\ndef auth_headers():\n    \"\"\"认证头 — 实际项目调用 login 获取真实 token\"\"\"\n    return {\"Authorization\": \"Bearer eyJhbGciOiJIUzI1NiJ9.mock\", \"Content-Type\": \"application/json\"}\n\n@pytest.fixture(scope=\"function\")\ndef api_client(base_url, auth_headers):\n    \"\"\"requests.Session 封装 — 复用 TCP 连接、自动携带认证头\"\"\"\n    s = requests.Session(); s.headers.update(auth_headers); s.base_url = base_url\n    yield s; s.close()\n",
+  "summary": {
+    "by_case_type": {
+      "positive": 7,
+      "boundary": 6,
+      "negative": 6,
+      "invalid": 3
+    },
+    "by_method": {
+      "POST": 9,
+      "GET": 6,
+      "PUT": 4,
+      "DELETE": 3
+    }
+  },
+  "_meta": {
+    "generated_at": "2026-05-24T14:49:50.933589",
+    "source_file": "step_06_test_cases.json"
+  }
+}

@@ -1,0 +1,63 @@
+# ═══════════════════════════════════════════════════════════════════
+# API 测试平台 Demo 代码 — Python 依赖
+# ═══════════════════════════════════════════════════════════════════
+# 安装方式:
+#   基础:   pip install -r requirements.txt
+#   分层:   先装基础, 按需装推荐和可选
+#   一键:   pip install -r requirements.txt  # 已包含 all 标记
+# ═══════════════════════════════════════════════════════════════════
+
+# ── 第1层: 基础依赖（所有 demo 必须） ──
+#   这些包让 10 个 demo 在降级模式下都能跑,
+#   即使外部服务 (Neo4j/ChromaDB/Qwen API) 不可用
+networkx>=3.0          # demo_03: 知识图谱本地模式 (networkx.DiGraph)
+numpy>=1.24            # demo_07: 向量运算 (numpy 不可用时自动降级到纯 Python)
+
+# ── 第2层: 推荐依赖（增强 demo 体验） ──
+#   装上后 demo 输出更真实的数据和更精准的检索
+faker>=18.0            # demo_05: 中文测试数据生成 (name/phone/email/address)
+rank-bm25>=0.2         # demo_07: BM25 Okapi 关键词检索 (无此包降级到词频重叠)
+
+# ── 第3层: 可选依赖（按需安装，每个对应特定 demo 的功能增强） ──
+#   LLM 调用:
+openai>=1.12           # demo_common: DeepSeek LLM 客户端 (demo_02/06/08/10)
+#   Neo4j 图数据库:
+neo4j>=5.20            # demo_03: Cypher 图数据库写入 (无此包降级到 networkx)
+#   文档解析:
+PyPDF2>=3.0            # demo_02: PDF 文档解析 (无此包降级到纯文本)
+python-docx>=1.1       # demo_02: Word 文档解析 (无此包降级到纯文本)
+PyYAML>=6.0            # demo_02: YAML/OpenAPI 文件支持 (无此包降级到 JSON)
+#   RAG 知识库:
+chromadb>=0.4          # demo_07: 向量数据库持久化存储 (无此包降级到 numpy hash)
+dashscope>=1.17        # demo_07: 通义千问 Embedding + Reranker API
+#   Agent 编排:
+langgraph>=0.1         # demo_08: LangGraph StateGraph 工作流 (可选, 当前用纯 Python 模拟)
+#   失败分析:
+deepdiff>=6.7          # demo_10: Schema 变更检测 (无此包降级到 JSON diff)
+
+# ═══════════════════════════════════════════════════════════════════
+# 安装说明:
+#
+# 1. 最小化安装 (demo_01~10 降级模式全可跑):
+#    pip install networkx numpy faker
+#
+# 2. 标准安装 (demo 体验最佳):
+#    pip install networkx numpy faker rank-bm25 openai
+#
+# 3. 完整安装 (所有 demo 功能全开):
+#    pip install -r requirements.txt
+#
+# 4. 创建虚拟环境 (推荐):
+#    python -m venv venv
+#    source venv/bin/activate      # macOS/Linux
+#    venv\Scripts\activate         # Windows
+#    pip install -r requirements.txt
+#
+# 5. 配置 .env 文件:
+#    在 代码demo/ 目录创建 .env, 填入 API Key:
+#      DEEPSEEK_API_KEY=your_key_here      # LLM 调用 (demo_02/06/08/10)
+#      QWEN_API_KEY=your_key_here          # Embedding + Reranker (demo_07)
+#      NEO4J_URI=bolt://localhost:7687     # 图数据库 (demo_03)
+#      NEO4J_USER=neo4j
+#      NEO4J_PASSWORD=your_password
+# ═══════════════════════════════════════════════════════════════════

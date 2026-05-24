@@ -1,0 +1,232 @@
+{
+  "nodes": [
+    {
+      "id": "adae17909120",
+      "label": "APIInterface",
+      "name": "用户手机号登录",
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "service": "auth-service",
+      "description": "用户通过手机号和验证码登录系统，返回 JWT token",
+      "crud_type": "CREATE",
+      "category": "account",
+      "version": "v1",
+      "requires_auth": false
+    },
+    {
+      "id": "177ea0ec535f",
+      "label": "APIInterface",
+      "name": "创建设备",
+      "method": "POST",
+      "path": "/api/v1/device/create",
+      "service": "device-service",
+      "description": "创建新的智能健身设备，需要登录token",
+      "crud_type": "CREATE",
+      "category": "device",
+      "version": "v1",
+      "requires_auth": true
+    },
+    {
+      "id": "54e441980550",
+      "label": "APIInterface",
+      "name": "查询设备列表",
+      "method": "GET",
+      "path": "/api/v1/device/list",
+      "service": "device-service",
+      "description": "分页查询设备列表，支持按类型和状态筛选",
+      "crud_type": "READ",
+      "category": "device",
+      "version": "v1",
+      "requires_auth": true
+    },
+    {
+      "id": "31673b32c6e9",
+      "label": "APIInterface",
+      "name": "查询设备详情",
+      "method": "GET",
+      "path": "/api/v1/device/{device_id}",
+      "service": "device-service",
+      "description": "根据设备ID查询单个设备的详细信息",
+      "crud_type": "READ",
+      "category": "device",
+      "version": "v1",
+      "requires_auth": true
+    },
+    {
+      "id": "0f8d55186742",
+      "label": "APIInterface",
+      "name": "更新设备信息",
+      "method": "PUT",
+      "path": "/api/v1/device/{device_id}",
+      "service": "device-service",
+      "description": "更新指定设备的名称、描述或状态",
+      "crud_type": "UPDATE",
+      "category": "device",
+      "version": "v1",
+      "requires_auth": true
+    },
+    {
+      "id": "c0ec34fe4d3c",
+      "label": "APIInterface",
+      "name": "删除设备",
+      "method": "DELETE",
+      "path": "/api/v1/device/{device_id}",
+      "service": "device-service",
+      "description": "删除指定设备（软删除，标记为已删除状态）",
+      "crud_type": "DELETE",
+      "category": "device",
+      "version": "v1",
+      "requires_auth": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "177ea0ec535f",
+      "target": "adae17909120",
+      "type": "data_flow",
+      "description": "创建设备 需要登录 token",
+      "extract_fields": [
+        "token"
+      ],
+      "confidence": 0.95,
+      "dep_key": "token"
+    },
+    {
+      "source": "54e441980550",
+      "target": "adae17909120",
+      "type": "data_flow",
+      "description": "查询设备列表 需要登录 token",
+      "extract_fields": [
+        "token"
+      ],
+      "confidence": 0.95,
+      "dep_key": "token"
+    },
+    {
+      "source": "31673b32c6e9",
+      "target": "adae17909120",
+      "type": "data_flow",
+      "description": "查询设备详情 需要登录 token",
+      "extract_fields": [
+        "token"
+      ],
+      "confidence": 0.95,
+      "dep_key": "token"
+    },
+    {
+      "source": "0f8d55186742",
+      "target": "adae17909120",
+      "type": "data_flow",
+      "description": "更新设备信息 需要登录 token",
+      "extract_fields": [
+        "token"
+      ],
+      "confidence": 0.95,
+      "dep_key": "token"
+    },
+    {
+      "source": "c0ec34fe4d3c",
+      "target": "adae17909120",
+      "type": "data_flow",
+      "description": "删除设备 需要登录 token",
+      "extract_fields": [
+        "token"
+      ],
+      "confidence": 0.95,
+      "dep_key": "token"
+    },
+    {
+      "source": "31673b32c6e9",
+      "target": "177ea0ec535f",
+      "type": "data_flow",
+      "description": "查询设备详情 先创建资源获取 device_id",
+      "extract_fields": [
+        "device_id"
+      ],
+      "confidence": 0.9,
+      "dep_key": "device_id"
+    },
+    {
+      "source": "0f8d55186742",
+      "target": "177ea0ec535f",
+      "type": "data_flow",
+      "description": "更新设备信息 先创建资源获取 device_id",
+      "extract_fields": [
+        "device_id"
+      ],
+      "confidence": 0.9,
+      "dep_key": "device_id"
+    },
+    {
+      "source": "c0ec34fe4d3c",
+      "target": "177ea0ec535f",
+      "type": "data_flow",
+      "description": "删除设备 先创建资源获取 device_id",
+      "extract_fields": [
+        "device_id"
+      ],
+      "confidence": 0.9,
+      "dep_key": "device_id"
+    },
+    {
+      "source": "177ea0ec535f",
+      "target": "54e441980550",
+      "type": "business_logic",
+      "description": "CRUD顺序: 创建设备 → 查询设备列表",
+      "extract_fields": [],
+      "confidence": 0.85,
+      "order": 1,
+      "dep_key": "crud_1"
+    },
+    {
+      "source": "177ea0ec535f",
+      "target": "31673b32c6e9",
+      "type": "business_logic",
+      "description": "CRUD顺序: 创建设备 → 查询设备详情",
+      "extract_fields": [],
+      "confidence": 0.85,
+      "order": 1,
+      "dep_key": "crud_1"
+    },
+    {
+      "source": "54e441980550",
+      "target": "0f8d55186742",
+      "type": "business_logic",
+      "description": "CRUD顺序: 查询设备列表 → 更新设备信息",
+      "extract_fields": [],
+      "confidence": 0.85,
+      "order": 2,
+      "dep_key": "crud_2"
+    },
+    {
+      "source": "31673b32c6e9",
+      "target": "0f8d55186742",
+      "type": "business_logic",
+      "description": "CRUD顺序: 查询设备详情 → 更新设备信息",
+      "extract_fields": [],
+      "confidence": 0.85,
+      "order": 2,
+      "dep_key": "crud_2"
+    },
+    {
+      "source": "0f8d55186742",
+      "target": "c0ec34fe4d3c",
+      "type": "business_logic",
+      "description": "CRUD顺序: 更新设备信息 → 删除设备",
+      "extract_fields": [],
+      "confidence": 0.85,
+      "order": 3,
+      "dep_key": "crud_3"
+    }
+  ],
+  "node_count": 6,
+  "edge_count": 13,
+  "dependency_types": {
+    "data_flow": 8,
+    "business_logic": 5
+  },
+  "_meta": {
+    "generated_at": "2026-05-24T14:49:48.545882",
+    "source_file": "step_03_knowledge_graph.json"
+  }
+}

@@ -1,0 +1,421 @@
+{
+  "interfaces": [
+    {
+      "name": "用户手机号登录",
+      "method": "POST",
+      "url": "/api/v1/auth/login",
+      "path": "/api/v1/auth/login",
+      "service": "auth-service",
+      "description": "用户通过手机号和验证码登录系统，返回 JWT token",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "params": {},
+      "body": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "required": [
+            "phone",
+            "code"
+          ],
+          "properties": {
+            "phone": {
+              "type": "string",
+              "description": "手机号",
+              "example": "13800138000"
+            },
+            "code": {
+              "type": "string",
+              "description": "短信验证码",
+              "example": "123456"
+            }
+          }
+        }
+      },
+      "response_schema": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string",
+              "description": "JWT访问令牌"
+            },
+            "user_id": {
+              "type": "integer",
+              "description": "用户ID"
+            },
+            "expires_in": {
+              "type": "integer",
+              "description": "过期时间(秒)"
+            }
+          }
+        }
+      },
+      "tags": [
+        "auth",
+        "account"
+      ],
+      "deprecated": false,
+      "crud_type": "CREATE",
+      "version": "v1",
+      "category": "account",
+      "_parser_type": "llm_enhanced",
+      "_index": 0
+    },
+    {
+      "name": "创建设备",
+      "method": "POST",
+      "url": "/api/v1/device/create",
+      "path": "/api/v1/device/create",
+      "service": "device-service",
+      "description": "创建新的智能健身设备，需要登录token",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {{token}}"
+      },
+      "params": {},
+      "body": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "required": [
+            "device_name",
+            "device_type",
+            "sn"
+          ],
+          "properties": {
+            "device_name": {
+              "type": "string",
+              "description": "设备名称",
+              "example": "智能跑步机 Pro"
+            },
+            "device_type": {
+              "type": "string",
+              "description": "设备类型",
+              "enum": [
+                "跑步机",
+                "走步机",
+                "划船机",
+                "智能哑铃"
+              ]
+            },
+            "sn": {
+              "type": "string",
+              "description": "设备序列号",
+              "example": "SN20240001"
+            },
+            "description": {
+              "type": "string",
+              "description": "设备描述"
+            },
+            "price": {
+              "type": "number",
+              "description": "设备价格(元)",
+              "example": 3999.0
+            }
+          }
+        }
+      },
+      "response_schema": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "device_id": {
+              "type": "integer",
+              "description": "新建设备ID"
+            },
+            "device_name": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "inactive"
+              ]
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      },
+      "tags": [
+        "device"
+      ],
+      "deprecated": false,
+      "crud_type": "CREATE",
+      "version": "v1",
+      "category": "device",
+      "_parser_type": "llm_enhanced",
+      "_index": 1
+    },
+    {
+      "name": "查询设备列表",
+      "method": "GET",
+      "url": "/api/v1/device/list",
+      "path": "/api/v1/device/list",
+      "service": "device-service",
+      "description": "分页查询设备列表，支持按类型和状态筛选",
+      "headers": {
+        "Authorization": "Bearer {{token}}"
+      },
+      "params": {
+        "page": {
+          "type": "integer",
+          "description": "页码",
+          "default": 1
+        },
+        "page_size": {
+          "type": "integer",
+          "description": "每页条数",
+          "default": 20
+        },
+        "device_type": {
+          "type": "string",
+          "description": "设备类型筛选"
+        },
+        "status": {
+          "type": "string",
+          "description": "状态筛选",
+          "enum": [
+            "active",
+            "inactive"
+          ]
+        }
+      },
+      "body": {},
+      "response_schema": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "description": "总条数"
+            },
+            "page": {
+              "type": "integer"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "device_id": {
+                    "type": "integer"
+                  },
+                  "device_name": {
+                    "type": "string"
+                  },
+                  "device_type": {
+                    "type": "string"
+                  },
+                  "sn": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "tags": [
+        "device"
+      ],
+      "deprecated": false,
+      "crud_type": "READ",
+      "version": "v1",
+      "category": "device",
+      "_parser_type": "llm_enhanced",
+      "_index": 2
+    },
+    {
+      "name": "查询设备详情",
+      "method": "GET",
+      "url": "/api/v1/device/{device_id}",
+      "path": "/api/v1/device/{device_id}",
+      "service": "device-service",
+      "description": "根据设备ID查询单个设备的详细信息",
+      "headers": {
+        "Authorization": "Bearer {{token}}"
+      },
+      "params": {},
+      "body": {},
+      "response_schema": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "device_id": {
+              "type": "integer"
+            },
+            "device_name": {
+              "type": "string"
+            },
+            "device_type": {
+              "type": "string"
+            },
+            "sn": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "price": {
+              "type": "number"
+            },
+            "status": {
+              "type": "string"
+            },
+            "owner_id": {
+              "type": "integer"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "tags": [
+        "device"
+      ],
+      "deprecated": false,
+      "crud_type": "READ",
+      "version": "v1",
+      "category": "device",
+      "_parser_type": "llm_enhanced",
+      "_index": 3
+    },
+    {
+      "name": "更新设备信息",
+      "method": "PUT",
+      "url": "/api/v1/device/{device_id}",
+      "path": "/api/v1/device/{device_id}",
+      "service": "device-service",
+      "description": "更新指定设备的名称、描述或状态",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {{token}}"
+      },
+      "params": {},
+      "body": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "device_name": {
+              "type": "string",
+              "description": "新设备名称"
+            },
+            "description": {
+              "type": "string",
+              "description": "新设备描述"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "inactive"
+              ]
+            }
+          }
+        }
+      },
+      "response_schema": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "device_id": {
+              "type": "integer"
+            },
+            "device_name": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "tags": [
+        "device"
+      ],
+      "deprecated": false,
+      "crud_type": "UPDATE",
+      "version": "v1",
+      "category": "device",
+      "_parser_type": "llm_enhanced",
+      "_index": 4
+    },
+    {
+      "name": "删除设备",
+      "method": "DELETE",
+      "url": "/api/v1/device/{device_id}",
+      "path": "/api/v1/device/{device_id}",
+      "service": "device-service",
+      "description": "删除指定设备（软删除，标记为已删除状态）",
+      "headers": {
+        "Authorization": "Bearer {{token}}"
+      },
+      "params": {},
+      "body": {},
+      "response_schema": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "操作结果"
+            },
+            "device_id": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "tags": [
+        "device"
+      ],
+      "deprecated": false,
+      "crud_type": "DELETE",
+      "version": "v1",
+      "category": "device",
+      "_parser_type": "llm_enhanced",
+      "_index": 5
+    }
+  ],
+  "total_count": 6,
+  "methods_summary": {
+    "POST": 2,
+    "GET": 2,
+    "PUT": 1,
+    "DELETE": 1
+  },
+  "services": [
+    "device-service",
+    "auth-service"
+  ],
+  "_meta": {
+    "generated_at": "2026-05-24T14:49:43.636143",
+    "source_file": "step_02_interfaces.json"
+  }
+}

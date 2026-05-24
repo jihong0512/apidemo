@@ -1,0 +1,92 @@
+# demo_12 生产部署配置
+# 这是第12讲的参考资料——实际部署时的 docker-compose.yml 模板
+# 注意：demo 阶段不需要真实启动这些服务，此文件供学习参考
+
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: apitest_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: your_mysql_password
+      MYSQL_DATABASE: api_test_platform
+      MYSQL_USER: apitest
+      MYSQL_PASSWORD: your_mysql_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  neo4j:
+    image: neo4j:5.15-community
+    container_name: apitest_neo4j
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: neo4j/your_neo4j_password
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+
+  minio:
+    image: minio/minio:latest
+    container_name: apitest_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+  backend:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    container_name: apitest_backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      neo4j:
+        condition: service_started
+    environment:
+      DATABASE_URL: mysql+pymysql://apitest:your_mysql_password@mysql:3306/api_test_platform
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USER: neo4j
+      NEO4J_PASSWORD: your_neo4j_password
+    ports:
+      - "8004:8004"
+
+  celery_worker:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    container_name: apitest_celery
+    restart: unless-stopped
+    command: celery -A app.celery_app worker --loglevel=info --concurrency=4
+    depends_on:
+      - mysql
+    environment:
+      DATABASE_URL: mysql+pymysql://apitest:your_mysql_password@mysql:3306/api_test_platform
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  mysql_data:
+  neo4j_data:
+  neo4j_logs:
+  minio_data:

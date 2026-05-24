@@ -1,0 +1,1598 @@
+{
+  "results": [
+    {
+      "test_case_id": "test_phone_user_login_positive",
+      "interface": "用户手机号登录",
+      "case_type": "positive",
+      "status": "failed",
+      "expected_status": 201,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MiwicGhvbmUiOiIxMzgqKioqMDAwMCIsImV4cCI6OTk5OTk5OTk5OX0.mock_signature",
+          "user_id": 42,
+          "phone": "13800138000",
+          "expires_in": 86400
+        },
+        "message": "success"
+      },
+      "elapsed": 0.00022172927856445312,
+      "error": null,
+      "request_data": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/v1/auth/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "phone": "13800138000",
+          "code": "123456"
+        }
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Request-Id": "mock-req-001"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MiwicGhvbmUiOiIxMzgqKioqMDAwMCIsImV4cCI6OTk5OTk5OTk5OX0.mock_signature",
+            "user_id": 42,
+            "phone": "13800138000",
+            "expires_in": 86400
+          },
+          "message": "success"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 201,
+          "actual": 200,
+          "passed": false
+        },
+        {
+          "type": "equals",
+          "field": "code",
+          "expected": 0,
+          "actual": 0,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "data",
+          "expected": "exists",
+          "actual": "exists",
+          "passed": true
+        }
+      ],
+      "execution_time": 0.00022172927856445312,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": false,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_phone_user_login_boundary",
+      "interface": "用户手机号登录",
+      "case_type": "boundary",
+      "status": "failed",
+      "expected_status": 201,
+      "actual_status": 401,
+      "response_body": {
+        "code": 401,
+        "data": null,
+        "message": "手机号或验证码错误"
+      },
+      "elapsed": 4.839897155761719e-05,
+      "error": null,
+      "request_data": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/v1/auth/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "phone": "",
+          "code": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      },
+      "response_data": {
+        "status_code": 401,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 401,
+          "data": null,
+          "message": "手机号或验证码错误"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 201,
+          "actual": 401,
+          "passed": false
+        }
+      ],
+      "execution_time": 4.839897155761719e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 401,
+          "passed": false,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_phone_user_login_negative",
+      "interface": "用户手机号登录",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 401,
+      "response_body": {
+        "code": 401,
+        "data": null,
+        "message": "手机号或验证码错误"
+      },
+      "elapsed": 1.5974044799804688e-05,
+      "error": null,
+      "request_data": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/v1/auth/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": "123456"
+        }
+      },
+      "response_data": {
+        "status_code": 401,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 401,
+          "data": null,
+          "message": "手机号或验证码错误"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400,
+          "actual": 401,
+          "passed": false
+        },
+        {
+          "type": "contains",
+          "field": "error_message",
+          "expected": "error present",
+          "actual": "error present",
+          "passed": true
+        }
+      ],
+      "execution_time": 1.5974044799804688e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 401,
+          "passed": false,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_phone_user_login_invalid",
+      "interface": "用户手机号登录",
+      "case_type": "invalid",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 401,
+      "response_body": {
+        "code": 401,
+        "data": null,
+        "message": "手机号或验证码错误"
+      },
+      "elapsed": 7.867813110351562e-06,
+      "error": null,
+      "request_data": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/v1/auth/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "phone": null,
+          "code": null
+        }
+      },
+      "response_data": {
+        "status_code": 401,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 401,
+          "data": null,
+          "message": "手机号或验证码错误"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400,
+          "actual": 401,
+          "passed": false
+        },
+        {
+          "type": "contains",
+          "field": "error_message",
+          "expected": "error present",
+          "actual": "error present",
+          "passed": true
+        }
+      ],
+      "execution_time": 7.867813110351562e-06,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 401,
+          "passed": false,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_phone_user_login_positive",
+      "interface": "用户手机号登录",
+      "case_type": "positive",
+      "status": "failed",
+      "expected_status": 201,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MiwicGhvbmUiOiIxMzgqKioqMDAwMCIsImV4cCI6OTk5OTk5OTk5OX0.mock_signature",
+          "user_id": 42,
+          "phone": "13800138000",
+          "expires_in": 86400
+        },
+        "message": "success"
+      },
+      "elapsed": 2.3603439331054688e-05,
+      "error": null,
+      "request_data": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/v1/auth/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "phone": "13800138000",
+          "code": "123456"
+        }
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Request-Id": "mock-req-001"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MiwicGhvbmUiOiIxMzgqKioqMDAwMCIsImV4cCI6OTk5OTk5OTk5OX0.mock_signature",
+            "user_id": 42,
+            "phone": "13800138000",
+            "expires_in": 86400
+          },
+          "message": "success"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 201,
+          "actual": 200,
+          "passed": false
+        },
+        {
+          "type": "equals",
+          "field": "code",
+          "expected": 0,
+          "actual": 0,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "data",
+          "expected": "exists",
+          "actual": "exists",
+          "passed": true
+        }
+      ],
+      "execution_time": 2.3603439331054688e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": false,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_create_device_positive",
+      "interface": "创建设备",
+      "case_type": "positive",
+      "status": "passed",
+      "expected_status": 201,
+      "actual_status": 201,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "device_id": 7450,
+          "device_name": "智能跑步机 Pro",
+          "status": "active",
+          "created_at": "2025-01-15T10:30:00Z"
+        },
+        "message": "创建成功"
+      },
+      "elapsed": 4.696846008300781e-05,
+      "error": null,
+      "request_data": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/v1/device/create",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "智能跑步机 Pro",
+          "device_type": "跑步机",
+          "sn": "SN20240001",
+          "description": "自动化测试生成的描述文本",
+          "price": 3999.0
+        }
+      },
+      "response_data": {
+        "status_code": 201,
+        "headers": {
+          "Content-Type": "application/json",
+          "Location": "http://localhost:8000/api/v1/device/create/7450"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "device_id": 7450,
+            "device_name": "智能跑步机 Pro",
+            "status": "active",
+            "created_at": "2025-01-15T10:30:00Z"
+          },
+          "message": "创建成功"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 201,
+          "actual": 201,
+          "passed": true
+        },
+        {
+          "type": "equals",
+          "field": "code",
+          "expected": 0,
+          "actual": 0,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "data",
+          "expected": "exists",
+          "actual": "exists",
+          "passed": true
+        }
+      ],
+      "execution_time": 4.696846008300781e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 201,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_create_device_boundary",
+      "interface": "创建设备",
+      "case_type": "boundary",
+      "status": "passed",
+      "expected_status": 201,
+      "actual_status": 201,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "device_id": 6061,
+          "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "status": "active",
+          "created_at": "2025-01-15T10:30:00Z"
+        },
+        "message": "创建成功"
+      },
+      "elapsed": 5.841255187988281e-05,
+      "error": null,
+      "request_data": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/v1/device/create",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "device_type": "<script>alert(1)</script>",
+          "sn": "' OR '1'='1",
+          "description": "",
+          "price": 0.0
+        }
+      },
+      "response_data": {
+        "status_code": 201,
+        "headers": {
+          "Content-Type": "application/json",
+          "Location": "http://localhost:8000/api/v1/device/create/6061"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "device_id": 6061,
+            "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "status": "active",
+            "created_at": "2025-01-15T10:30:00Z"
+          },
+          "message": "创建成功"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 201,
+          "actual": 201,
+          "passed": true
+        },
+        {
+          "type": "equals",
+          "field": "code",
+          "expected": 0,
+          "actual": 0,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "data",
+          "expected": "exists",
+          "actual": "exists",
+          "passed": true
+        }
+      ],
+      "execution_time": 5.841255187988281e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 201,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_create_device_negative",
+      "interface": "创建设备",
+      "case_type": "negative",
+      "status": "passed",
+      "expected_status": 400,
+      "actual_status": 400,
+      "response_body": {
+        "code": 400,
+        "data": null,
+        "message": "缺少必填字段: device_name"
+      },
+      "elapsed": 4.506111145019531e-05,
+      "error": null,
+      "request_data": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/v1/device/create",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_type": "跑步机",
+          "sn": "SN20240001",
+          "description": "自动化测试生成的描述文本",
+          "price": 3999.0
+        }
+      },
+      "response_data": {
+        "status_code": 400,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 400,
+          "data": null,
+          "message": "缺少必填字段: device_name"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400,
+          "actual": 400,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "error_message",
+          "expected": "error present",
+          "actual": "error present",
+          "passed": true
+        }
+      ],
+      "execution_time": 4.506111145019531e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 400,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_create_device_invalid",
+      "interface": "创建设备",
+      "case_type": "invalid",
+      "status": "passed",
+      "expected_status": 400,
+      "actual_status": 400,
+      "response_body": {
+        "code": 400,
+        "data": null,
+        "message": "缺少必填字段: device_name"
+      },
+      "elapsed": 1.0967254638671875e-05,
+      "error": null,
+      "request_data": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/v1/device/create",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": null,
+          "device_type": null,
+          "sn": null,
+          "description": null,
+          "price": null
+        }
+      },
+      "response_data": {
+        "status_code": 400,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 400,
+          "data": null,
+          "message": "缺少必填字段: device_name"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400,
+          "actual": 400,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "error_message",
+          "expected": "error present",
+          "actual": "error present",
+          "passed": true
+        }
+      ],
+      "execution_time": 1.0967254638671875e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 400,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_query_list_positive",
+      "interface": "查询设备列表",
+      "case_type": "positive",
+      "status": "passed",
+      "expected_status": 200,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "total": 2,
+          "items": [
+            {
+              "device_id": 7450,
+              "device_name": "智能跑步机 Pro",
+              "device_type": "跑步机",
+              "status": "active",
+              "sn": "SN20247450"
+            },
+            {
+              "device_id": 6061,
+              "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "device_type": "跑步机",
+              "status": "active",
+              "sn": "SN20246061"
+            }
+          ]
+        },
+        "message": "success"
+      },
+      "elapsed": 1.6927719116210938e-05,
+      "error": null,
+      "request_data": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/v1/device/list",
+        "headers": {},
+        "body": {}
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "total": 2,
+            "items": [
+              {
+                "device_id": 7450,
+                "device_name": "智能跑步机 Pro",
+                "device_type": "跑步机",
+                "status": "active",
+                "sn": "SN20247450"
+              },
+              {
+                "device_id": 6061,
+                "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "device_type": "跑步机",
+                "status": "active",
+                "sn": "SN20246061"
+              }
+            ]
+          },
+          "message": "success"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "equals",
+          "field": "code",
+          "expected": 0,
+          "actual": 0,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "data",
+          "expected": "exists",
+          "actual": "exists",
+          "passed": true
+        }
+      ],
+      "execution_time": 1.6927719116210938e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_query_list_boundary",
+      "interface": "查询设备列表",
+      "case_type": "boundary",
+      "status": "passed",
+      "expected_status": 200,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "total": 2,
+          "items": [
+            {
+              "device_id": 7450,
+              "device_name": "智能跑步机 Pro",
+              "device_type": "跑步机",
+              "status": "active",
+              "sn": "SN20247450"
+            },
+            {
+              "device_id": 6061,
+              "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "device_type": "跑步机",
+              "status": "active",
+              "sn": "SN20246061"
+            }
+          ]
+        },
+        "message": "success"
+      },
+      "elapsed": 1.2159347534179688e-05,
+      "error": null,
+      "request_data": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/v1/device/list",
+        "headers": {},
+        "body": {}
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "total": 2,
+            "items": [
+              {
+                "device_id": 7450,
+                "device_name": "智能跑步机 Pro",
+                "device_type": "跑步机",
+                "status": "active",
+                "sn": "SN20247450"
+              },
+              {
+                "device_id": 6061,
+                "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "device_type": "跑步机",
+                "status": "active",
+                "sn": "SN20246061"
+              }
+            ]
+          },
+          "message": "success"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "equals",
+          "field": "code",
+          "expected": 0,
+          "actual": 0,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "data",
+          "expected": "exists",
+          "actual": "exists",
+          "passed": true
+        }
+      ],
+      "execution_time": 1.2159347534179688e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_query_list_negative",
+      "interface": "查询设备列表",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "total": 2,
+          "items": [
+            {
+              "device_id": 7450,
+              "device_name": "智能跑步机 Pro",
+              "device_type": "跑步机",
+              "status": "active",
+              "sn": "SN20247450"
+            },
+            {
+              "device_id": 6061,
+              "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "device_type": "跑步机",
+              "status": "active",
+              "sn": "SN20246061"
+            }
+          ]
+        },
+        "message": "success"
+      },
+      "elapsed": 9.775161743164062e-06,
+      "error": null,
+      "request_data": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/v1/device/list",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "total": 2,
+            "items": [
+              {
+                "device_id": 7450,
+                "device_name": "智能跑步机 Pro",
+                "device_type": "跑步机",
+                "status": "active",
+                "sn": "SN20247450"
+              },
+              {
+                "device_id": 6061,
+                "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "device_type": "跑步机",
+                "status": "active",
+                "sn": "SN20246061"
+              }
+            ]
+          },
+          "message": "success"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400,
+          "actual": 200,
+          "passed": false
+        }
+      ],
+      "execution_time": 9.775161743164062e-06,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": false,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_query_detail_positive",
+      "interface": "查询设备详情",
+      "case_type": "positive",
+      "status": "passed",
+      "expected_status": 200,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "device_id": 1,
+          "device_name": "设备1",
+          "device_type": "跑步机",
+          "sn": "SN20240001",
+          "status": "active",
+          "description": "模拟设备详情",
+          "price": 3999.0
+        },
+        "message": "success"
+      },
+      "elapsed": 9.250640869140625e-05,
+      "error": null,
+      "request_data": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/v1/device/1",
+        "headers": {},
+        "body": {}
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "device_id": 1,
+            "device_name": "设备1",
+            "device_type": "跑步机",
+            "sn": "SN20240001",
+            "status": "active",
+            "description": "模拟设备详情",
+            "price": 3999.0
+          },
+          "message": "success"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "equals",
+          "field": "code",
+          "expected": 0,
+          "actual": 0,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "data",
+          "expected": "exists",
+          "actual": "exists",
+          "passed": true
+        }
+      ],
+      "execution_time": 9.250640869140625e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_query_detail_boundary",
+      "interface": "查询设备详情",
+      "case_type": "boundary",
+      "status": "passed",
+      "expected_status": 200,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "device_id": 1,
+          "device_name": "设备1",
+          "device_type": "跑步机",
+          "sn": "SN20240001",
+          "status": "active",
+          "description": "模拟设备详情",
+          "price": 3999.0
+        },
+        "message": "success"
+      },
+      "elapsed": 1.9073486328125e-05,
+      "error": null,
+      "request_data": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/v1/device/1",
+        "headers": {},
+        "body": {}
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "device_id": 1,
+            "device_name": "设备1",
+            "device_type": "跑步机",
+            "sn": "SN20240001",
+            "status": "active",
+            "description": "模拟设备详情",
+            "price": 3999.0
+          },
+          "message": "success"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "equals",
+          "field": "code",
+          "expected": 0,
+          "actual": 0,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "data",
+          "expected": "exists",
+          "actual": "exists",
+          "passed": true
+        }
+      ],
+      "execution_time": 1.9073486328125e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_query_detail_negative",
+      "interface": "查询设备详情",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "device_id": 1,
+          "device_name": "设备1",
+          "device_type": "跑步机",
+          "sn": "SN20240001",
+          "status": "active",
+          "description": "模拟设备详情",
+          "price": 3999.0
+        },
+        "message": "success"
+      },
+      "elapsed": 3.0517578125e-05,
+      "error": null,
+      "request_data": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/v1/device/1",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "device_id": 1,
+            "device_name": "设备1",
+            "device_type": "跑步机",
+            "sn": "SN20240001",
+            "status": "active",
+            "description": "模拟设备详情",
+            "price": 3999.0
+          },
+          "message": "success"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400,
+          "actual": 200,
+          "passed": false
+        }
+      ],
+      "execution_time": 3.0517578125e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": false,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_update_info_positive",
+      "interface": "更新设备信息",
+      "case_type": "positive",
+      "status": "passed",
+      "expected_status": 200,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "device_id": 1,
+          "device_name": "黄淑英",
+          "status": "active",
+          "updated_at": "2025-01-15T11:00:00Z"
+        },
+        "message": "更新成功"
+      },
+      "elapsed": 5.125999450683594e-05,
+      "error": null,
+      "request_data": {
+        "method": "PUT",
+        "url": "http://localhost:8000/api/v1/device/1",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "黄淑英",
+          "description": "自动化测试生成的描述文本",
+          "status": "active"
+        }
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "device_id": 1,
+            "device_name": "黄淑英",
+            "status": "active",
+            "updated_at": "2025-01-15T11:00:00Z"
+          },
+          "message": "更新成功"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "equals",
+          "field": "code",
+          "expected": 0,
+          "actual": 0,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "data",
+          "expected": "exists",
+          "actual": "exists",
+          "passed": true
+        }
+      ],
+      "execution_time": 5.125999450683594e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_update_info_boundary",
+      "interface": "更新设备信息",
+      "case_type": "boundary",
+      "status": "passed",
+      "expected_status": 200,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "device_id": 1,
+          "device_name": "",
+          "status": "active",
+          "updated_at": "2025-01-15T11:00:00Z"
+        },
+        "message": "更新成功"
+      },
+      "elapsed": 4.792213439941406e-05,
+      "error": null,
+      "request_data": {
+        "method": "PUT",
+        "url": "http://localhost:8000/api/v1/device/1",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "",
+          "description": "测试Unicode🎯",
+          "status": ""
+        }
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "device_id": 1,
+            "device_name": "",
+            "status": "active",
+            "updated_at": "2025-01-15T11:00:00Z"
+          },
+          "message": "更新成功"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "equals",
+          "field": "code",
+          "expected": 0,
+          "actual": 0,
+          "passed": true
+        },
+        {
+          "type": "contains",
+          "field": "data",
+          "expected": "exists",
+          "actual": "exists",
+          "passed": true
+        }
+      ],
+      "execution_time": 4.792213439941406e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_update_info_negative",
+      "interface": "更新设备信息",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "device_id": 1,
+          "device_name": "张洁",
+          "status": "active",
+          "updated_at": "2025-01-15T11:00:00Z"
+        },
+        "message": "更新成功"
+      },
+      "elapsed": 3.647804260253906e-05,
+      "error": null,
+      "request_data": {
+        "method": "PUT",
+        "url": "http://localhost:8000/api/v1/device/1",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "张洁",
+          "description": "自动化测试生成的描述文本",
+          "status": "active"
+        }
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "device_id": 1,
+            "device_name": "张洁",
+            "status": "active",
+            "updated_at": "2025-01-15T11:00:00Z"
+          },
+          "message": "更新成功"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400,
+          "actual": 200,
+          "passed": false
+        }
+      ],
+      "execution_time": 3.647804260253906e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": false,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_update_info_invalid",
+      "interface": "更新设备信息",
+      "case_type": "invalid",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 200,
+      "response_body": {
+        "code": 0,
+        "data": {
+          "device_id": 1,
+          "device_name": null,
+          "status": "active",
+          "updated_at": "2025-01-15T11:00:00Z"
+        },
+        "message": "更新成功"
+      },
+      "elapsed": 1.0013580322265625e-05,
+      "error": null,
+      "request_data": {
+        "method": "PUT",
+        "url": "http://localhost:8000/api/v1/device/1",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": null,
+          "description": null,
+          "status": null
+        }
+      },
+      "response_data": {
+        "status_code": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 0,
+          "data": {
+            "device_id": 1,
+            "device_name": null,
+            "status": "active",
+            "updated_at": "2025-01-15T11:00:00Z"
+          },
+          "message": "更新成功"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400,
+          "actual": 200,
+          "passed": false
+        }
+      ],
+      "execution_time": 1.0013580322265625e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 200,
+          "passed": false,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_delete_positive",
+      "interface": "删除设备",
+      "case_type": "positive",
+      "status": "passed",
+      "expected_status": 204,
+      "actual_status": 204,
+      "response_body": {},
+      "elapsed": 8.58306884765625e-06,
+      "error": null,
+      "request_data": {
+        "method": "DELETE",
+        "url": "http://localhost:8000/api/v1/device/1",
+        "headers": {},
+        "body": {}
+      },
+      "response_data": {
+        "status_code": 204,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 204,
+          "actual": 204,
+          "passed": true
+        }
+      ],
+      "execution_time": 8.58306884765625e-06,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 204,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_delete_boundary",
+      "interface": "删除设备",
+      "case_type": "boundary",
+      "status": "failed",
+      "expected_status": 204,
+      "actual_status": 404,
+      "response_body": {
+        "code": 404,
+        "data": null,
+        "message": "设备不存在或已删除"
+      },
+      "elapsed": 7.867813110351562e-06,
+      "error": null,
+      "request_data": {
+        "method": "DELETE",
+        "url": "http://localhost:8000/api/v1/device/1",
+        "headers": {},
+        "body": {}
+      },
+      "response_data": {
+        "status_code": 404,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": 404,
+          "data": null,
+          "message": "设备不存在或已删除"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 204,
+          "actual": 404,
+          "passed": false
+        }
+      ],
+      "execution_time": 7.867813110351562e-06,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 404,
+          "passed": false,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    },
+    {
+      "test_case_id": "test_device_delete_negative",
+      "interface": "删除设备",
+      "case_type": "negative",
+      "status": "failed",
+      "expected_status": 400,
+      "actual_status": 204,
+      "response_body": {},
+      "elapsed": 1.430511474609375e-05,
+      "error": null,
+      "request_data": {
+        "method": "DELETE",
+        "url": "http://localhost:8000/api/v1/device/1",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response_data": {
+        "status_code": 204,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400,
+          "actual": 204,
+          "passed": false
+        }
+      ],
+      "execution_time": 1.430511474609375e-05,
+      "retry_history": [
+        {
+          "attempt": 1,
+          "status_code": 204,
+          "passed": false,
+          "error": null
+        }
+      ],
+      "retry_count": 0
+    }
+  ],
+  "total": 22,
+  "passed_count": 11,
+  "failed_count": 11,
+  "error_count": 0,
+  "pass_rate": 50.0,
+  "concurrency": 3,
+  "total_elapsed": 0.0,
+  "execution_time": 0.0,
+  "generator_demo": {
+    "pattern": "Generator yield 模式",
+    "description": "yield前=前置脚本(准备数据), yield后=后置脚本(清理/验证), 同一作用域变量共享",
+    "code_example": "见源码"
+  },
+  "_meta": {
+    "generated_at": "2026-05-24T14:49:52.172397",
+    "source_file": "step_09_execution_results.json"
+  }
+}

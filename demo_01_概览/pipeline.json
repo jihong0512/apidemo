@@ -1,0 +1,14 @@
+{
+  "pipeline": [
+    {"step": 1, "name": "上传文档", "lecture": "02", "demo": "demo_02_文档解析", "input": "sample_swagger.json", "output": "step_02_interfaces.json", "description": "上传Swagger/OpenAPI文档，识别文件格式"},
+    {"step": 2, "name": "文档解析", "lecture": "02", "demo": "demo_02_文档解析", "input": "sample_swagger.json", "output": "step_02_interfaces.json", "description": "策略模式路由解析器，提取接口的name/method/url/params/body/response_schema"},
+    {"step": 3, "name": "知识图谱", "lecture": "03", "demo": "demo_03_知识图谱", "input": "step_02_interfaces.json", "output": "step_03_knowledge_graph.json", "description": "接口→networkx有向图，节点=APIInterface，边=DEPENDS_ON/HAS_SCHEMA"},
+    {"step": 4, "name": "依赖分析", "lecture": "04", "demo": "demo_04_依赖分析", "input": "step_03_knowledge_graph.json", "output": "step_04_dependencies.json", "description": "Kahn拓扑排序 + 数据流依赖推断（token/auth头→下游接口）"},
+    {"step": 5, "name": "数据生成", "lecture": "05", "demo": "demo_05_数据工厂", "input": "step_04_dependencies.json", "output": "step_05_test_data.json", "description": "Faker字段映射：phone→手机号、email→邮箱；四类用例边界值"},
+    {"step": 6, "name": "用例生成", "lecture": "06", "demo": "demo_06_用例生成", "input": "step_05_test_data.json", "output": "step_06_test_cases.json", "description": "接口schema+测试数据→pytest可执行代码模板"},
+    {"step": 7, "name": "RAG入库", "lecture": "07", "demo": "demo_07_RAG知识库", "input": "step_06_test_cases.json", "output": "step_07_rag_index.json", "description": "用例代码→numpy向量化→余弦相似度检索"},
+    {"step": 8, "name": "Agent编排", "lecture": "08", "demo": "demo_08_Agent编排", "input": "step_07_rag_index.json", "output": "step_08_agent_cases.json", "description": "任务描述→Agent工作流→补充边界/异常用例"},
+    {"step": 9, "name": "异步执行", "lecture": "09", "demo": "demo_09_异步执行", "input": "step_06_test_cases.json", "output": "step_09_execution_results.json", "description": "threading并发执行 + MockResponder返回模拟响应"},
+    {"step": 10, "name": "失败分析", "lecture": "10", "demo": "demo_10_失败分析", "input": "step_09_execution_results.json", "output": "step_10_analysis.json", "description": "三层分类（环境/数据/代码） + 根因推断 + 修复建议"}
+  ]
+}

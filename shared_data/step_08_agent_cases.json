@@ -1,0 +1,1211 @@
+{
+  "parsed_interfaces": [
+    {
+      "name": "创建设备",
+      "method": "POST",
+      "url": "/api/v1/device/create",
+      "path": "/api/v1/device/create",
+      "service": "device-service",
+      "description": "创建新的智能健身设备，需要登录token",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {{token}}"
+      },
+      "params": {},
+      "body": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "required": [
+            "device_name",
+            "device_type",
+            "sn"
+          ],
+          "properties": {
+            "device_name": {
+              "type": "string",
+              "description": "设备名称",
+              "example": "智能跑步机 Pro"
+            },
+            "device_type": {
+              "type": "string",
+              "description": "设备类型",
+              "enum": [
+                "跑步机",
+                "走步机",
+                "划船机",
+                "智能哑铃"
+              ]
+            },
+            "sn": {
+              "type": "string",
+              "description": "设备序列号",
+              "example": "SN20240001"
+            },
+            "description": {
+              "type": "string",
+              "description": "设备描述"
+            },
+            "price": {
+              "type": "number",
+              "description": "设备价格(元)",
+              "example": 3999.0
+            }
+          }
+        }
+      },
+      "response_schema": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "device_id": {
+              "type": "integer",
+              "description": "新建设备ID"
+            },
+            "device_name": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "inactive"
+              ]
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      },
+      "tags": [
+        "device"
+      ],
+      "deprecated": false,
+      "crud_type": "CREATE",
+      "version": "v1",
+      "category": "device",
+      "_parser_type": "llm_enhanced",
+      "_index": 1
+    },
+    {
+      "name": "查询设备列表",
+      "method": "GET",
+      "url": "/api/v1/device/list",
+      "path": "/api/v1/device/list",
+      "service": "device-service",
+      "description": "分页查询设备列表，支持按类型和状态筛选",
+      "headers": {
+        "Authorization": "Bearer {{token}}"
+      },
+      "params": {
+        "page": {
+          "type": "integer",
+          "description": "页码",
+          "default": 1
+        },
+        "page_size": {
+          "type": "integer",
+          "description": "每页条数",
+          "default": 20
+        },
+        "device_type": {
+          "type": "string",
+          "description": "设备类型筛选"
+        },
+        "status": {
+          "type": "string",
+          "description": "状态筛选",
+          "enum": [
+            "active",
+            "inactive"
+          ]
+        }
+      },
+      "body": {},
+      "response_schema": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "description": "总条数"
+            },
+            "page": {
+              "type": "integer"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "device_id": {
+                    "type": "integer"
+                  },
+                  "device_name": {
+                    "type": "string"
+                  },
+                  "device_type": {
+                    "type": "string"
+                  },
+                  "sn": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "tags": [
+        "device"
+      ],
+      "deprecated": false,
+      "crud_type": "READ",
+      "version": "v1",
+      "category": "device",
+      "_parser_type": "llm_enhanced",
+      "_index": 2
+    },
+    {
+      "name": "查询设备详情",
+      "method": "GET",
+      "url": "/api/v1/device/{device_id}",
+      "path": "/api/v1/device/{device_id}",
+      "service": "device-service",
+      "description": "根据设备ID查询单个设备的详细信息",
+      "headers": {
+        "Authorization": "Bearer {{token}}"
+      },
+      "params": {},
+      "body": {},
+      "response_schema": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "device_id": {
+              "type": "integer"
+            },
+            "device_name": {
+              "type": "string"
+            },
+            "device_type": {
+              "type": "string"
+            },
+            "sn": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "price": {
+              "type": "number"
+            },
+            "status": {
+              "type": "string"
+            },
+            "owner_id": {
+              "type": "integer"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "tags": [
+        "device"
+      ],
+      "deprecated": false,
+      "crud_type": "READ",
+      "version": "v1",
+      "category": "device",
+      "_parser_type": "llm_enhanced",
+      "_index": 3
+    },
+    {
+      "name": "更新设备信息",
+      "method": "PUT",
+      "url": "/api/v1/device/{device_id}",
+      "path": "/api/v1/device/{device_id}",
+      "service": "device-service",
+      "description": "更新指定设备的名称、描述或状态",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {{token}}"
+      },
+      "params": {},
+      "body": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "device_name": {
+              "type": "string",
+              "description": "新设备名称"
+            },
+            "description": {
+              "type": "string",
+              "description": "新设备描述"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "inactive"
+              ]
+            }
+          }
+        }
+      },
+      "response_schema": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "device_id": {
+              "type": "integer"
+            },
+            "device_name": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "tags": [
+        "device"
+      ],
+      "deprecated": false,
+      "crud_type": "UPDATE",
+      "version": "v1",
+      "category": "device",
+      "_parser_type": "llm_enhanced",
+      "_index": 4
+    },
+    {
+      "name": "删除设备",
+      "method": "DELETE",
+      "url": "/api/v1/device/{device_id}",
+      "path": "/api/v1/device/{device_id}",
+      "service": "device-service",
+      "description": "删除指定设备（软删除，标记为已删除状态）",
+      "headers": {
+        "Authorization": "Bearer {{token}}"
+      },
+      "params": {},
+      "body": {},
+      "response_schema": {
+        "content_type": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "操作结果"
+            },
+            "device_id": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "tags": [
+        "device"
+      ],
+      "deprecated": false,
+      "crud_type": "DELETE",
+      "version": "v1",
+      "category": "device",
+      "_parser_type": "llm_enhanced",
+      "_index": 5
+    }
+  ],
+  "dependencies": {
+    "call_dependencies": [
+      {
+        "source": "查询设备详情",
+        "target": "创建设备",
+        "type": "data_flow",
+        "description": "查询设备详情 需要 创建设备 的数据",
+        "extract_fields": [
+          "device_id"
+        ]
+      },
+      {
+        "source": "更新设备信息",
+        "target": "创建设备",
+        "type": "data_flow",
+        "description": "更新设备信息 需要 创建设备 的数据",
+        "extract_fields": [
+          "device_id"
+        ]
+      },
+      {
+        "source": "删除设备",
+        "target": "创建设备",
+        "type": "data_flow",
+        "description": "删除设备 需要 创建设备 的数据",
+        "extract_fields": [
+          "device_id"
+        ]
+      }
+    ],
+    "data_dependencies": [],
+    "business_dependencies": [],
+    "execution_order": [
+      {
+        "step": 1,
+        "interface": "创建设备"
+      },
+      {
+        "step": 2,
+        "interface": "查询设备列表"
+      },
+      {
+        "step": 3,
+        "interface": "查询设备详情"
+      },
+      {
+        "step": 4,
+        "interface": "更新设备信息"
+      },
+      {
+        "step": 5,
+        "interface": "删除设备"
+      }
+    ],
+    "groups": {
+      "total_groups": 4,
+      "group_list": [
+        "device_create",
+        "device_query",
+        "device_update",
+        "device_delete"
+      ],
+      "details": {
+        "device_create": {
+          "members": [
+            {
+              "index": 0,
+              "name": "创建设备",
+              "version": "v1",
+              "match_keyword": "create.*device",
+              "match_score": 0.6296
+            }
+          ],
+          "versions": [
+            "v1"
+          ],
+          "is_versioned": false
+        },
+        "device_query": {
+          "members": [
+            {
+              "index": 1,
+              "name": "查询设备列表",
+              "version": "v1",
+              "match_keyword": "设备.*列表",
+              "match_score": 0.6226
+            },
+            {
+              "index": 2,
+              "name": "查询设备详情",
+              "version": "v1",
+              "match_keyword": "设备.*查询",
+              "match_score": 0.6897
+            }
+          ],
+          "versions": [
+            "v1"
+          ],
+          "is_versioned": false
+        },
+        "device_update": {
+          "members": [
+            {
+              "index": 3,
+              "name": "更新设备信息",
+              "version": "v1",
+              "match_keyword": "设备.*更新",
+              "match_score": 0.6071
+            }
+          ],
+          "versions": [
+            "v1"
+          ],
+          "is_versioned": false
+        },
+        "device_delete": {
+          "members": [
+            {
+              "index": 4,
+              "name": "删除设备",
+              "version": "v1",
+              "match_keyword": "设备.*删除",
+              "match_score": 0.7966
+            }
+          ],
+          "versions": [
+            "v1"
+          ],
+          "is_versioned": false
+        }
+      },
+      "ungrouped_count": 0
+    },
+    "cycles_detected": false,
+    "total_dependencies": 3
+  },
+  "test_cases": [
+    {
+      "name": "正常场景: 创建设备",
+      "type": "normal",
+      "description": "正向测试: 创建设备 — 合法参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "智能跑步机 Pro",
+          "device_type": "test_device_type",
+          "sn": "SN20240001",
+          "description": "test_description",
+          "price": 3999.0
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 201
+        },
+        {
+          "type": "json_contains",
+          "field": "success",
+          "value": true
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "边界值: 创建设备",
+      "type": "boundary",
+      "description": "边界值测试: 创建设备 — 超长/特殊字符",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "device_type": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "sn": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "异常场景(缺参数): 创建设备",
+      "type": "exception",
+      "description": "异常测试: 创建设备 — 缺少必填参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "依赖场景: 查询设备详情",
+      "type": "dependency",
+      "description": "先执行 创建设备 → 再调用 查询设备详情",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${{token}}"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        }
+      ],
+      "dependencies": [
+        "创建设备"
+      ]
+    },
+    {
+      "name": "正常场景: 更新设备信息",
+      "type": "normal",
+      "description": "正向测试: 更新设备信息 — 合法参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "test_device_name",
+          "description": "test_description",
+          "status": "test_status"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        },
+        {
+          "type": "json_contains",
+          "field": "success",
+          "value": true
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "异常场景(缺参数): 更新设备信息",
+      "type": "exception",
+      "description": "异常测试: 更新设备信息 — 缺少必填参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "依赖场景: 更新设备信息",
+      "type": "dependency",
+      "description": "先执行 创建设备 → 再调用 更新设备信息",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${{token}}"
+        },
+        "body": {
+          "device_name": "test_device_name",
+          "description": "test_description",
+          "status": "test_status"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        }
+      ],
+      "dependencies": [
+        "创建设备"
+      ]
+    },
+    {
+      "name": "依赖场景: 删除设备",
+      "type": "dependency",
+      "description": "先执行 创建设备 → 再调用 删除设备",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${{token}}"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        }
+      ],
+      "dependencies": [
+        "创建设备"
+      ]
+    }
+  ],
+  "task_description": "测试设备管理模块的完整CRUD流程，包括边界值和异常场景",
+  "orchestration_mode": "sequential",
+  "workflow_log": [
+    {
+      "agent": "InterfaceParserAgent",
+      "mode": "keyword_match",
+      "task": "测试设备管理模块的完整CRUD流程，包括边界值和异常场景",
+      "found": 5
+    },
+    {
+      "agent": "DependencyAnalyzerAgent",
+      "mode": "demo_04_engine",
+      "deps_found": 3,
+      "groups": 4
+    },
+    {
+      "agent": "TestCaseGeneratorAgent",
+      "mode": "llm",
+      "cases_generated": 8
+    }
+  ],
+  "agent_steps": [
+    {
+      "agent": "InterfaceParserAgent",
+      "action": "keyword_match",
+      "result": "{\"task\": \"测试设备管理模块的完整CRUD流程，包括边界值和异常场景\", \"found\": 5}"
+    },
+    {
+      "agent": "DependencyAnalyzerAgent",
+      "action": "demo_04_engine",
+      "result": "{\"deps_found\": 3, \"groups\": 4}"
+    },
+    {
+      "agent": "TestCaseGeneratorAgent",
+      "action": "llm",
+      "result": "{\"cases_generated\": 8}"
+    }
+  ],
+  "agent_count": 3,
+  "agent_cases": [
+    {
+      "name": "正常场景: 创建设备",
+      "type": "normal",
+      "description": "正向测试: 创建设备 — 合法参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "智能跑步机 Pro",
+          "device_type": "test_device_type",
+          "sn": "SN20240001",
+          "description": "test_description",
+          "price": 3999.0
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 201
+        },
+        {
+          "type": "json_contains",
+          "field": "success",
+          "value": true
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "边界值: 创建设备",
+      "type": "boundary",
+      "description": "边界值测试: 创建设备 — 超长/特殊字符",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "device_type": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "sn": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "异常场景(缺参数): 创建设备",
+      "type": "exception",
+      "description": "异常测试: 创建设备 — 缺少必填参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "依赖场景: 查询设备详情",
+      "type": "dependency",
+      "description": "先执行 创建设备 → 再调用 查询设备详情",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${{token}}"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        }
+      ],
+      "dependencies": [
+        "创建设备"
+      ]
+    },
+    {
+      "name": "正常场景: 更新设备信息",
+      "type": "normal",
+      "description": "正向测试: 更新设备信息 — 合法参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "test_device_name",
+          "description": "test_description",
+          "status": "test_status"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        },
+        {
+          "type": "json_contains",
+          "field": "success",
+          "value": true
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "异常场景(缺参数): 更新设备信息",
+      "type": "exception",
+      "description": "异常测试: 更新设备信息 — 缺少必填参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "依赖场景: 更新设备信息",
+      "type": "dependency",
+      "description": "先执行 创建设备 → 再调用 更新设备信息",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${{token}}"
+        },
+        "body": {
+          "device_name": "test_device_name",
+          "description": "test_description",
+          "status": "test_status"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        }
+      ],
+      "dependencies": [
+        "创建设备"
+      ]
+    },
+    {
+      "name": "依赖场景: 删除设备",
+      "type": "dependency",
+      "description": "先执行 创建设备 → 再调用 删除设备",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${{token}}"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        }
+      ],
+      "dependencies": [
+        "创建设备"
+      ]
+    }
+  ],
+  "additional_cases": [
+    {
+      "name": "正常场景: 创建设备",
+      "type": "normal",
+      "description": "正向测试: 创建设备 — 合法参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "智能跑步机 Pro",
+          "device_type": "test_device_type",
+          "sn": "SN20240001",
+          "description": "test_description",
+          "price": 3999.0
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 201
+        },
+        {
+          "type": "json_contains",
+          "field": "success",
+          "value": true
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "边界值: 创建设备",
+      "type": "boundary",
+      "description": "边界值测试: 创建设备 — 超长/特殊字符",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "device_type": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "sn": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "异常场景(缺参数): 创建设备",
+      "type": "exception",
+      "description": "异常测试: 创建设备 — 缺少必填参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "依赖场景: 查询设备详情",
+      "type": "dependency",
+      "description": "先执行 创建设备 → 再调用 查询设备详情",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${{token}}"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        }
+      ],
+      "dependencies": [
+        "创建设备"
+      ]
+    },
+    {
+      "name": "正常场景: 更新设备信息",
+      "type": "normal",
+      "description": "正向测试: 更新设备信息 — 合法参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "test_device_name",
+          "description": "test_description",
+          "status": "test_status"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        },
+        {
+          "type": "json_contains",
+          "field": "success",
+          "value": true
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "异常场景(缺参数): 更新设备信息",
+      "type": "exception",
+      "description": "异常测试: 更新设备信息 — 缺少必填参数",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 400
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "依赖场景: 更新设备信息",
+      "type": "dependency",
+      "description": "先执行 创建设备 → 再调用 更新设备信息",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${{token}}"
+        },
+        "body": {
+          "device_name": "test_device_name",
+          "description": "test_description",
+          "status": "test_status"
+        }
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        }
+      ],
+      "dependencies": [
+        "创建设备"
+      ]
+    },
+    {
+      "name": "依赖场景: 删除设备",
+      "type": "dependency",
+      "description": "先执行 创建设备 → 再调用 删除设备",
+      "test_data": {
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${{token}}"
+        },
+        "body": {}
+      },
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200
+        }
+      ],
+      "dependencies": [
+        "创建设备"
+      ]
+    }
+  ],
+  "matched_interfaces": [
+    "创建设备",
+    "查询设备列表",
+    "查询设备详情",
+    "更新设备信息",
+    "删除设备"
+  ],
+  "total_additional_cases": 8,
+  "relevant_rag_docs": [],
+  "interface_names": [
+    "创建设备",
+    "查询设备列表",
+    "查询设备详情",
+    "更新设备信息",
+    "删除设备"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "interface": "创建设备"
+    },
+    {
+      "step": 2,
+      "interface": "查询设备列表"
+    },
+    {
+      "step": 3,
+      "interface": "查询设备详情"
+    },
+    {
+      "step": 4,
+      "interface": "更新设备信息"
+    },
+    {
+      "step": 5,
+      "interface": "删除设备"
+    }
+  ],
+  "groups": {
+    "total_groups": 4,
+    "group_list": [
+      "device_create",
+      "device_query",
+      "device_update",
+      "device_delete"
+    ],
+    "details": {
+      "device_create": {
+        "members": [
+          {
+            "index": 0,
+            "name": "创建设备",
+            "version": "v1",
+            "match_keyword": "create.*device",
+            "match_score": 0.6296
+          }
+        ],
+        "versions": [
+          "v1"
+        ],
+        "is_versioned": false
+      },
+      "device_query": {
+        "members": [
+          {
+            "index": 1,
+            "name": "查询设备列表",
+            "version": "v1",
+            "match_keyword": "设备.*列表",
+            "match_score": 0.6226
+          },
+          {
+            "index": 2,
+            "name": "查询设备详情",
+            "version": "v1",
+            "match_keyword": "设备.*查询",
+            "match_score": 0.6897
+          }
+        ],
+        "versions": [
+          "v1"
+        ],
+        "is_versioned": false
+      },
+      "device_update": {
+        "members": [
+          {
+            "index": 3,
+            "name": "更新设备信息",
+            "version": "v1",
+            "match_keyword": "设备.*更新",
+            "match_score": 0.6071
+          }
+        ],
+        "versions": [
+          "v1"
+        ],
+        "is_versioned": false
+      },
+      "device_delete": {
+        "members": [
+          {
+            "index": 4,
+            "name": "删除设备",
+            "version": "v1",
+            "match_keyword": "设备.*删除",
+            "match_score": 0.7966
+          }
+        ],
+        "versions": [
+          "v1"
+        ],
+        "is_versioned": false
+      }
+    },
+    "ungrouped_count": 0
+  },
+  "_meta": {
+    "generated_at": "2026-05-24T14:49:52.156157",
+    "source_file": "step_08_agent_cases.json"
+  }
+}

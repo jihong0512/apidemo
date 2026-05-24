@@ -1,0 +1,68 @@
+# ═══════════════════════════════════════════════════════════════════
+# API 测试平台 Demo 环境 — Docker 基础设施
+# ═══════════════════════════════════════════════════════════════════
+# 用途: 为 10 个教学 Demo 提供 MySQL + Neo4j 基础设施
+# 启动: docker compose up -d
+# 停止: docker compose down
+# 清空: docker compose down -v  (警告: 会删除所有数据卷)
+#
+# 端口说明:
+#   MySQL:   3309 → 兼容现有 backend 配置
+#   Neo4j:   7687 → 标准 Bolt 协议端口
+#   ChromaDB: 本地 Python 进程 (不容器化, 直接 pip install chromadb)
+# ═══════════════════════════════════════════════════════════════════
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: api_test_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: api_test
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-mysql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p123456"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - demo_network
+
+  neo4j:
+    image: neo4j:5.15
+    container_name: api_test_neo4j
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: neo4j/123456789
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_auth__minimum__password__length: "6"
+    ports:
+      - "7474:7474"   # HTTP 浏览器访问 http://localhost:7474
+      - "7687:7687"    # Bolt 协议
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - ./init-neo4j:/init-neo4j
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "123456789", "RETURN 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - demo_network
+
+volumes:
+  mysql_data:
+  neo4j_data:
+  neo4j_logs:
+
+networks:
+  demo_network:
+    driver: bridge

@@ -1,0 +1,255 @@
+{
+  "sorted_interfaces": [
+    "用户手机号登录",
+    "创建设备",
+    "查询设备列表",
+    "查询设备详情",
+    "更新设备信息",
+    "删除设备"
+  ],
+  "dependency_map": {
+    "创建设备": [
+      {
+        "depends_on": "用户手机号登录",
+        "type": "data_flow",
+        "description": "创建设备 需要 用户手机号登录 的数据",
+        "extract_fields": [
+          "token",
+          "user_id"
+        ],
+        "confidence": 0.85
+      }
+    ],
+    "查询设备列表": [
+      {
+        "depends_on": "用户手机号登录",
+        "type": "data_flow",
+        "description": "查询设备列表 需要 用户手机号登录 的数据",
+        "extract_fields": [
+          "token",
+          "user_id"
+        ],
+        "confidence": 0.85
+      }
+    ],
+    "查询设备详情": [
+      {
+        "depends_on": "用户手机号登录",
+        "type": "data_flow",
+        "description": "查询设备详情 需要 用户手机号登录 的数据",
+        "extract_fields": [
+          "token",
+          "user_id"
+        ],
+        "confidence": 0.85
+      },
+      {
+        "depends_on": "创建设备",
+        "type": "data_flow",
+        "description": "查询设备详情 需要 创建设备 的数据",
+        "extract_fields": [
+          "device_id"
+        ],
+        "confidence": 0.85
+      }
+    ],
+    "更新设备信息": [
+      {
+        "depends_on": "用户手机号登录",
+        "type": "data_flow",
+        "description": "更新设备信息 需要 用户手机号登录 的数据",
+        "extract_fields": [
+          "token",
+          "user_id"
+        ],
+        "confidence": 0.85
+      },
+      {
+        "depends_on": "创建设备",
+        "type": "data_flow",
+        "description": "更新设备信息 需要 创建设备 的数据",
+        "extract_fields": [
+          "device_id"
+        ],
+        "confidence": 0.85
+      }
+    ],
+    "删除设备": [
+      {
+        "depends_on": "用户手机号登录",
+        "type": "data_flow",
+        "description": "删除设备 需要 用户手机号登录 的数据",
+        "extract_fields": [
+          "token",
+          "user_id"
+        ],
+        "confidence": 0.85
+      },
+      {
+        "depends_on": "创建设备",
+        "type": "data_flow",
+        "description": "删除设备 需要 创建设备 的数据",
+        "extract_fields": [
+          "device_id"
+        ],
+        "confidence": 0.85
+      }
+    ]
+  },
+  "data_flow_chains": [
+    {
+      "chain_type": "token_flow",
+      "source": "用户手机号登录",
+      "dependents": [
+        "创建设备",
+        "查询设备列表",
+        "查询设备详情",
+        "更新设备信息",
+        "删除设备"
+      ],
+      "description": "登录接口返回 token → 下游接口注入 Authorization 头",
+      "extract_path": "$.token",
+      "inject_target": "headers.Authorization"
+    },
+    {
+      "chain_type": "id_flow",
+      "source": "创建设备",
+      "dependents": [
+        "查询设备详情",
+        "更新设备信息",
+        "删除设备"
+      ],
+      "description": "创建设备 返回 device_id → 下游接口注入路径参数",
+      "extract_path": "$.device_id",
+      "inject_target": "url.device_id"
+    }
+  ],
+  "cycles": [],
+  "cycles_detected": false,
+  "total_dependencies": 8,
+  "execution_order": [
+    {
+      "step": 1,
+      "interface": "用户手机号登录"
+    },
+    {
+      "step": 2,
+      "interface": "创建设备"
+    },
+    {
+      "step": 3,
+      "interface": "查询设备列表"
+    },
+    {
+      "step": 4,
+      "interface": "查询设备详情"
+    },
+    {
+      "step": 5,
+      "interface": "更新设备信息"
+    },
+    {
+      "step": 6,
+      "interface": "删除设备"
+    }
+  ],
+  "groups": {
+    "total_groups": 5,
+    "group_list": [
+      "phone_login",
+      "device_create",
+      "device_query",
+      "device_update",
+      "device_delete"
+    ],
+    "details": {
+      "phone_login": {
+        "members": [
+          {
+            "index": 0,
+            "name": "用户手机号登录",
+            "version": "v1",
+            "match_keyword": "手机.*登录",
+            "match_score": 0.5588
+          }
+        ],
+        "versions": [
+          "v1"
+        ],
+        "is_versioned": false
+      },
+      "device_create": {
+        "members": [
+          {
+            "index": 1,
+            "name": "创建设备",
+            "version": "v1",
+            "match_keyword": "create.*device",
+            "match_score": 0.6296
+          }
+        ],
+        "versions": [
+          "v1"
+        ],
+        "is_versioned": false
+      },
+      "device_query": {
+        "members": [
+          {
+            "index": 2,
+            "name": "查询设备列表",
+            "version": "v1",
+            "match_keyword": "设备.*列表",
+            "match_score": 0.6226
+          },
+          {
+            "index": 3,
+            "name": "查询设备详情",
+            "version": "v1",
+            "match_keyword": "设备.*查询",
+            "match_score": 0.6897
+          }
+        ],
+        "versions": [
+          "v1"
+        ],
+        "is_versioned": false
+      },
+      "device_update": {
+        "members": [
+          {
+            "index": 4,
+            "name": "更新设备信息",
+            "version": "v1",
+            "match_keyword": "设备.*更新",
+            "match_score": 0.6071
+          }
+        ],
+        "versions": [
+          "v1"
+        ],
+        "is_versioned": false
+      },
+      "device_delete": {
+        "members": [
+          {
+            "index": 5,
+            "name": "删除设备",
+            "version": "v1",
+            "match_keyword": "设备.*删除",
+            "match_score": 0.7966
+          }
+        ],
+        "versions": [
+          "v1"
+        ],
+        "is_versioned": false
+      }
+    },
+    "ungrouped_count": 0
+  },
+  "_meta": {
+    "generated_at": "2026-05-24T14:49:48.569385",
+    "source_file": "step_04_dependencies.json"
+  }
+}

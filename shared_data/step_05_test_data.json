@@ -1,0 +1,377 @@
+{
+  "test_data": {
+    "用户手机号登录": [
+      {
+        "case_type": "positive",
+        "description": "正向测试: 用户手机号登录",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "phone": "13800138000",
+          "code": "123456"
+        },
+        "expected_status": 201
+      },
+      {
+        "case_type": "boundary",
+        "description": "边界值测试: 用户手机号登录",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "phone": "",
+          "code": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "expected_status": 201
+      },
+      {
+        "case_type": "negative",
+        "description": "负向测试(缺必填): 用户手机号登录",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "code": "123456"
+        },
+        "expected_status": 400
+      },
+      {
+        "case_type": "invalid",
+        "description": "无效数据测试: 用户手机号登录",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "phone": null,
+          "code": null
+        },
+        "expected_status": 400
+      }
+    ],
+    "创建设备": [
+      {
+        "case_type": "positive",
+        "description": "正向测试: 创建设备",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {
+          "device_name": "智能跑步机 Pro",
+          "device_type": "跑步机",
+          "sn": "SN20240001",
+          "description": "自动化测试生成的描述文本",
+          "price": 3999.0
+        },
+        "expected_status": 201
+      },
+      {
+        "case_type": "boundary",
+        "description": "边界值测试: 创建设备",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {
+          "device_name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "device_type": "<script>alert(1)</script>",
+          "sn": "' OR '1'='1",
+          "description": "",
+          "price": 0.0
+        },
+        "expected_status": 201
+      },
+      {
+        "case_type": "negative",
+        "description": "负向测试(缺必填): 创建设备",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_type": "跑步机",
+          "sn": "SN20240001",
+          "description": "自动化测试生成的描述文本",
+          "price": 3999.0
+        },
+        "expected_status": 400
+      },
+      {
+        "case_type": "invalid",
+        "description": "无效数据测试: 创建设备",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {
+          "device_name": null,
+          "device_type": null,
+          "sn": null,
+          "description": null,
+          "price": null
+        },
+        "expected_status": 400
+      }
+    ],
+    "查询设备列表": [
+      {
+        "case_type": "positive",
+        "description": "正向测试: 查询设备列表",
+        "params": {
+          "page": 19,
+          "page_size": 42,
+          "device_type": "跑步机",
+          "status": "active"
+        },
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {},
+        "expected_status": 200
+      },
+      {
+        "case_type": "boundary",
+        "description": "边界值测试: 查询设备列表",
+        "params": {
+          "page": 2147483647,
+          "page_size": 0,
+          "device_type": "",
+          "status": "测试Unicode🎯"
+        },
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {},
+        "expected_status": 200
+      },
+      {
+        "case_type": "negative",
+        "description": "负向测试(缺必填): 查询设备列表",
+        "params": {
+          "page": "not_a_number",
+          "page_size": "not_a_number",
+          "device_type": 12345678,
+          "status": 12345678
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {},
+        "expected_status": 400
+      }
+    ],
+    "查询设备详情": [
+      {
+        "case_type": "positive",
+        "description": "正向测试: 查询设备详情",
+        "params": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {},
+        "expected_status": 200
+      },
+      {
+        "case_type": "boundary",
+        "description": "边界值测试: 查询设备详情",
+        "params": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {},
+        "expected_status": 200
+      },
+      {
+        "case_type": "negative",
+        "description": "负向测试(缺必填): 查询设备详情",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {},
+        "expected_status": 400
+      }
+    ],
+    "更新设备信息": [
+      {
+        "case_type": "positive",
+        "description": "正向测试: 更新设备信息",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {
+          "device_name": "黄淑英",
+          "description": "自动化测试生成的描述文本",
+          "status": "active"
+        },
+        "expected_status": 200
+      },
+      {
+        "case_type": "boundary",
+        "description": "边界值测试: 更新设备信息",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {
+          "device_name": "",
+          "description": "测试Unicode🎯",
+          "status": ""
+        },
+        "expected_status": 200
+      },
+      {
+        "case_type": "negative",
+        "description": "负向测试(缺必填): 更新设备信息",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "device_name": "张洁",
+          "description": "自动化测试生成的描述文本",
+          "status": "active"
+        },
+        "expected_status": 400
+      },
+      {
+        "case_type": "invalid",
+        "description": "无效数据测试: 更新设备信息",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {
+          "device_name": null,
+          "description": null,
+          "status": null
+        },
+        "expected_status": 400
+      }
+    ],
+    "删除设备": [
+      {
+        "case_type": "positive",
+        "description": "正向测试: 删除设备",
+        "params": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {},
+        "expected_status": 204
+      },
+      {
+        "case_type": "boundary",
+        "description": "边界值测试: 删除设备",
+        "params": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+        },
+        "body": {},
+        "expected_status": 204
+      },
+      {
+        "case_type": "negative",
+        "description": "负向测试(缺必填): 删除设备",
+        "params": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {},
+        "expected_status": 400
+      }
+    ]
+  },
+  "total_interfaces": 6,
+  "total_cases": 21,
+  "cases_per_interface": {
+    "用户手机号登录": 4,
+    "创建设备": 4,
+    "查询设备列表": 3,
+    "查询设备详情": 3,
+    "更新设备信息": 4,
+    "删除设备": 3
+  },
+  "flow_context": {
+    "token": "eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE=",
+    "user_id": 75,
+    "device_id": null,
+    "variables": {
+      "token": "eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiOTI1IiwgImlhdCI6IDE3Nzk2MDUzODgsICJleHAiOiAxNzc5NjkxNzg4fQ==.iyVtu+/hRlgQnuN0H0Pn3kqZS254cz8MSvd0hhFWmLE="
+    },
+    "dependencies": {
+      "创建设备": [
+        {
+          "from": "用户手机号登录",
+          "field": "token",
+          "inject_to": "headers.Authorization",
+          "format": "Bearer {{token}}"
+        }
+      ],
+      "查询设备列表": [
+        {
+          "from": "用户手机号登录",
+          "field": "token",
+          "inject_to": "headers.Authorization",
+          "format": "Bearer {{token}}"
+        }
+      ],
+      "查询设备详情": [
+        {
+          "from": "用户手机号登录",
+          "field": "token",
+          "inject_to": "headers.Authorization",
+          "format": "Bearer {{token}}"
+        },
+        {
+          "from": "创建设备",
+          "field": "device_id",
+          "inject_to": "url.device_id"
+        }
+      ],
+      "更新设备信息": [
+        {
+          "from": "用户手机号登录",
+          "field": "token",
+          "inject_to": "headers.Authorization",
+          "format": "Bearer {{token}}"
+        },
+        {
+          "from": "创建设备",
+          "field": "device_id",
+          "inject_to": "url.device_id"
+        }
+      ],
+      "删除设备": [
+        {
+          "from": "用户手机号登录",
+          "field": "token",
+          "inject_to": "headers.Authorization",
+          "format": "Bearer {{token}}"
+        },
+        {
+          "from": "创建设备",
+          "field": "device_id",
+          "inject_to": "url.device_id"
+        }
+      ]
+    }
+  },
+  "_meta_faker": true,
+  "_meta": {
+    "generated_at": "2026-05-24T14:49:48.581533",
+    "source_file": "step_05_test_data.json"
+  }
+}
