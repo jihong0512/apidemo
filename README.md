@@ -2,6 +2,27 @@
 
 这是"AI接口自动化测试平台"12讲课程配套的可运行代码示例。每个 demo 对应一讲，**独立可运行**，同时输出 JSON 文件作为下一讲的输入，形成 10 步流水线。
 
+## ⚡ 3 步跑起来
+
+```bash
+# Step 1: 安装依赖 (二选一)
+pip install -r requirements.txt          # 完整安装
+pip install networkx numpy               # 最小安装 (离线降级模式)
+
+# Step 2: 配置环境 (可选, 跳过也能跑)
+cp .env.example .env                     # 复制模板
+# 编辑 .env 填入你的 DeepSeek/Qwen API Key (不填也能跑降级模式)
+
+# Step 3: 一键跑通全链路 (3秒)
+cd demo_11_端到端 && python run_pipeline.py
+```
+
+预期输出: **9/9 步骤全部通过 ✓**，总耗时约 3 秒 (离线模式) 或 3 分钟 (LLM 模式)。
+
+> 🎯 **零配置也能跑！** 不装 Docker、不配 API Key、不连 Neo4j，只需 `networkx + numpy` 两个包，全链路自动降级跑通。配置了真实服务后自动升级到生产模式。
+
+---
+
 ## 一键安装 (Docker + Python)
 
 ### Windows
